@@ -1,0 +1,9 @@
+insert into teacher_subject (teacher_id, subject_id) values (1, 5);
+insert into teacher_subject (teacher_id, subject_id) values (2, 6);
+insert into teacher_subject (teacher_id, subject_id) values (3, 7);
+insert into teacher_subject (teacher_id, subject_id) values (4, 8);
+insert into teacher_subject (teacher_id, subject_id) values (5, 9);
+insert into teacher_subject (teacher_id, subject_id) values (6, 10);
+insert into teacher_subject (teacher_id, subject_id) values (6, 9);
+insert into teacher_subject (teacher_id, subject_id) values (6, 8);
+insert into teacher_subject (teacher_id, subject_id) values (6, 7);
