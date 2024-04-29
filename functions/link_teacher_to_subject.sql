@@ -7,15 +7,25 @@ $$
 declare
 
 number_of_pairs int;
+subject_count int;
+teacher_count int;
 
 begin
 
-    select into number_of_pairs count(*) from teacher_subject
-        where teacher_id = the_teacher_id and subject_id = the_subject_id;
+    -- check if the_teacher_id & the_subject_id are found once in teacher & subject databases
+    select into subject_count count(*) from subject where id = the_subject_id;
+    select into teacher_count count(*) from teacher where id = the_teacher_id;
 
-    if (number_of_pairs = 0) then
-        insert into teacher_subject (teacher_id, subject_id) values (the_teacher_id, the_subject_id);
-        return true;
+    if (subject_count = 1 and teacher_count = 1) then
+        select into number_of_pairs count(*) from teacher_subject
+            where teacher_id = the_teacher_id and subject_id = the_subject_id;
+
+        if (number_of_pairs = 0) then
+            insert into teacher_subject (teacher_id, subject_id) values (the_teacher_id, the_subject_id);
+            return true;
+        else
+            return false;
+        end if;
     else
         return false;
     end if;
