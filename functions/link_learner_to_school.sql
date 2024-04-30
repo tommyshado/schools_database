@@ -10,14 +10,7 @@ linked_learner int;
 current_school varchar;
 
 begin
-    /*
-    * retrieve both learner_id & school_id count from the learner_school db
-    * by joining both learner, school, and learner_school tables
-    * add both values count into linked_learner
-     */
-    select into linked_learner count(*) from learner
-        join learner_school on learner.id = learner_school.learner_id
-        join school on learner_school.school_id = school.id
+    select into linked_learner count(*) from learner_school
         where learner_school.learner_id = the_learner_id and learner_school.school_id = the_school_id;
 
     -- if a learner is not linked then
