@@ -20,7 +20,7 @@ begin
         select into linked_learner count(*) from learner_school where learner_school.learner_id = the_learner_id;
 
         -- if a learner is not linked then
-        if (linked_learner = 0) then
+        if (linked_learner >= 0) then
             -- retrieve the name from the school db then
             select into current_school name from school where id = the_school_id;
 
