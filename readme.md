@@ -40,7 +40,7 @@ The project is organized into two main directories:
 - **Raises**: Nothing
 - **Side Effects**: Updates the `current_school` flag to false for the previous school and inserts a new record into the `learner_school` table for the new school.
 
-## `learner_school` Table
+### `learner_school` Table
 
 - **Description**: This table links learners to schools, indicating which school a learner is currently associated with.
 - **Columns**:
