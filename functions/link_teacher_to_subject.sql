@@ -17,8 +17,7 @@ begin
     select into teacher_count count(*) from teacher where id = the_teacher_id;
 
     if (subject_count = 1 and teacher_count = 1) then
-        select into number_of_pairs count(*) from teacher_subject
-            where teacher_id = the_teacher_id and subject_id = the_subject_id;
+        select into number_of_pairs count(*) from teacher_subject where teacher_id = the_teacher_id;
 
         if (number_of_pairs = 0) then
             insert into teacher_subject (teacher_id, subject_id) values (the_teacher_id, the_subject_id);
