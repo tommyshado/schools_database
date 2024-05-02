@@ -1,4 +1,10 @@
--- Create a function called find_teachers_teaching_multiple_subjects that returns all the teachers that teach the specified number of subjects.
+-- Function: find_teachers_teaching_multiple_subjects
+-- Description: This function retrieves all the teachers that teach the specified number of subjects. It returns a table containing the ID, first name, last name, and email of the teachers that teach the specified number of subjects.
+-- Parameters:
+--   number_of_subjects: The number of subjects for which the teachers are to be retrieved.
+-- Returns: A table containing the ID, first name, last name, and email of the teachers that teach the specified number of subjects.
+-- Raises: Nothing
+-- Side Effects: It retrieves the teachers that teach the specified number of subjects from the teacher, teacher_subject, and subject tables.
 
 create or replace function find_teachers_teaching_multiple_subjects(number_of_subjects int)
     returns table (

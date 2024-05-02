@@ -1,10 +1,18 @@
--- Create a function called find_teachers_for_subject that returns all the teachers that teach a specified subject.
+-- Function: find_teachers_for_subject
+-- Description: This function retrieves all the teachers that teach a specified subject. It returns a table containing the ID, first name, last name, and email of the teachers that teach the specified subject.
+-- Parameters:
+--   specified_subject: The name of the subject for which the teachers are to be retrieved.
+-- Returns: A table containing the ID, first name, last name, and email of the teachers that teach the specified subject.
+-- Raises: Nothing
+-- Side Effects: It retrieves the teachers that teach the specified subject from the teacher, teacher_subject, and subject tables.
+
 
 create or replace function find_teachers_for_subject(specified_subject text)
     returns table (
         id int,
         first_name text,
-        last_name text
+        last_name text,
+        email text
     ) as
 $$
 

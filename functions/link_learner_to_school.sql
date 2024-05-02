@@ -1,5 +1,11 @@
--- Create a function called, linkLearnerToSchool(the_learner_id, the_school_id) - link a learner to a school. 
--- Do nothing if the learner is already linked to a school.
+-- Function: linkLearnerToSchool
+-- Description: This function links a learner to a school. It does nothing if the learner is already linked to a school.
+-- Parameters:
+--   the_learner_id: The ID of the learner to be linked to a school.
+--   the_school_id: The ID of the school to which the learner is to be linked.
+-- Returns: void
+-- Raises: Nothing
+-- Side Effects: It inserts a record into the learner_school table if the learner is not already linked to a school.
 
 create or replace function linkLearnerToSchool(the_learner_id int, the_school_id int)
     returns void as

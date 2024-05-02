@@ -1,3 +1,12 @@
+-- Function: changeLearnerSchool
+-- Description: This function changes the school of a learner. If the learner is already linked to a school, 
+--              it updates the current_school flag to false for the previous school and inserts a new record into the learner_school table for the new school.
+-- Parameters:
+--   the_learner_id: The ID of the learner whose school is to be changed.
+--   the_school_id: The ID of the new school to which the learner is to be linked.
+-- Returns: void
+-- Raises: Nothing
+-- Side Effects: It updates the current_school flag to false for the previous school and inserts a new record into the learner_school table for the new school.
 
 create or replace function changeLearnerSchool(the_learner_id int, the_school_id int)
     returns void as

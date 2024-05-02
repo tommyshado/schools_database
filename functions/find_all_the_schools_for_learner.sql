@@ -1,3 +1,11 @@
+-- Function: getSchoolsForLearner
+-- Description: This function retrieves the schools that a learner is associated with. It returns a table containing the ID and name of the schools that the specified learner is associated with.
+-- Parameters:
+--   the_learner_id: The ID of the learner whose associated schools are to be retrieved.
+-- Returns: A table containing the ID and name of the schools that the specified learner is associated with.
+-- Raises: Nothing
+-- Side Effects: It retrieves the schools that the specified learner is associated with from the learner, learner_school, and school tables.
+
 create type school_type as (
     id int,
     name varchar

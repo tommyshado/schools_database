@@ -1,3 +1,11 @@
+-- Function: getLearnersCurrentSchool
+-- Description: This function retrieves the current school of a learner. It returns a table containing the ID and name of the current school of the specified learner.
+-- Parameters:
+--   the_learner_id: The ID of the learner whose current school is to be retrieved.
+-- Returns: A table containing the ID and name of the current school of the specified learner.
+-- Raises: Nothing
+-- Side Effects: It retrieves the current school of the specified learner from the learner_school table.
+
 create type school_type as (
     id int,
     name varchar
