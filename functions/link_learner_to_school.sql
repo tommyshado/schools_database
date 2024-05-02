@@ -7,7 +7,6 @@ $$
 declare
 
 linked_learner int;
-current_school varchar;
 learner_count int;
 school_count int;
 
@@ -20,11 +19,10 @@ begin
         select into linked_learner count(*) from learner_school where learner_school.learner_id = the_learner_id;
 
         if (linked_learner = 0) then
-            select into current_school name from school where id = the_school_id;
-            if (current_school is not null) then
-                insert into learner_school (learner_id, school_id, current_school) 
-                    values (the_learner_id, the_school_id, current_school);
-            end if;
+            insert into learner_school_history (learner_id, school_id)
+                values (the_learner_id, the_school_id);
+            insert into learner_school (learner_id, school_id, current_school) 
+                values (the_learner_id, the_school_id, true);
         end if;
     end if;
 

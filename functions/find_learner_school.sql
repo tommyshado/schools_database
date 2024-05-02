@@ -1,6 +1,6 @@
 create type school_type as (
     id int,
-    current_school varchar
+    name varchar
 );
 
 create or replace function getLearnersCurrentSchool(the_learner_id int)
@@ -11,8 +11,10 @@ $$
 begin
 
 return query
-    select id, current_school from learner_school 
-        where learner_id = the_learner_id order by id desc limit 1;
+    select school.id, school.name from school
+        join learner_school on school.id = learner_school.school_id
+        join learner on learner_school.learner_id = learner.id
+        where learner.id = the_learner_id;
 
 end;
 $$
