@@ -12,8 +12,8 @@ begin
 
 return query
     select school.id, school.name from school
-        join learner_school_history on school.id = learner_school_history.school_id
-        join learner on learner_school_history.learner_id = learner.id
+        join learner_school on school.id = learner_school.school_id
+        join learner on learner_school.learner_id = learner.id
         where learner.id = the_learner_id;
 
 end;
