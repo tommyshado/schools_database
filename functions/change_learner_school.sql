@@ -26,7 +26,8 @@ begin
         select into linked_learner count(*) from learner_school where learner_school.learner_id = the_learner_id;
         if (linked_learner > 0) then
             update learner_school set current_school = false
-                where learner_id = the_learner_id and current_school = true;
+                where learner_id = the_learner_id 
+                and current_school = true;
             insert into learner_school (learner_id, school_id, current_school) 
                 values (the_learner_id, the_school_id, true);
         end if;
