@@ -1,4 +1,5 @@
 # Schools Database Project
+[![Node.js CI](https://github.com/tommyshado/schools_database/actions/workflows/node.js.yml/badge.svg)](https://github.com/tommyshado/schools_database/actions/workflows/node.js.yml)
 
 This project is a database management system designed for schools. It aims to manage and organize data related to schools, teachers, learners, subjects, and grades. The system is built using SQL scripts for various operations, serving as a backend for a school management application or a similar educational platform.
 
