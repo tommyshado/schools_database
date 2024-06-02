@@ -7,13 +7,13 @@
 -- Raises: Nothing
 -- Side Effects: It inserts a record into the teacher_school table if the teacher is not already linked to a school.
 
-create or replace function linkTeacherToSchool(the_teacher_id int, the_school_id int)
-    returns void as
+create or replace function link_teacher_to_school (the_teacher_id int, the_school_id int)
+    returns boolean as
 $$
 declare
-linked_teacher int;
-teacher_count int;
-school_count int;
+    linked_teacher int;
+    teacher_count int;
+    school_count int;
 begin
     select into teacher_count count(*) from teacher where id = the_teacher_id;
     select into school_count count(*) from school where id = the_school_id;
@@ -23,8 +23,12 @@ begin
         if (linked_teacher = 0) then
             insert into teacher_school (teacher_id, school_id, current_school) 
                 values (the_teacher_id, the_school_id, true);
+            return true;
+        else
+            return false;
         end if;
     end if;
+    return false;
 end;
 $$
 Language plpgsql;

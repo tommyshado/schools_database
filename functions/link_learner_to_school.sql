@@ -7,17 +7,14 @@
 -- Raises: Nothing
 -- Side Effects: It inserts a record into the learner_school table if the learner is not already linked to a school.
 
-create or replace function linkLearnerToSchool(the_learner_id int, the_school_id int)
-    returns void as
+create or replace function link_learner_to_school(the_learner_id int, the_school_id int)
+    returns boolean as
 $$
 declare
-
-linked_learner int;
-learner_count int;
-school_count int;
-
+    linked_learner int;
+    learner_count int;
+    school_count int;
 begin
-
     select into learner_count count(*) from learner where id = the_learner_id;
     select into school_count count(*) from school where id = the_school_id;
 
@@ -27,9 +24,12 @@ begin
         if (linked_learner = 0) then
             insert into learner_school (learner_id, school_id, current_school) 
                 values (the_learner_id, the_school_id, true);
+            return true;
+        else
+            return false;
         end if;
     end if;
-
+    return false;
 end;
 $$
 Language plpgsql;
