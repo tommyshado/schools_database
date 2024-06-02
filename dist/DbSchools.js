@@ -16,17 +16,29 @@ class DbSchools {
     ;
     createSchools(name, region) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "select * from create_schools($1, $2)";
-            const results = yield this.db.oneOrNone(query, [name, region]);
-            return results.create_schools;
+            try {
+                const query = "select * from create_schools($1, $2)";
+                const results = yield this.db.oneOrNone(query, [name, region]);
+                return results.create_schools;
+            }
+            catch (error) {
+                console.error("An error occurred while creating a school", error);
+                throw error;
+            }
         });
     }
     ;
     getSchools() {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "select * from find_schools()";
-            const results = yield this.db.manyOrNone(query);
-            return results;
+            try {
+                const query = "select * from find_schools()";
+                const results = yield this.db.manyOrNone(query);
+                return results;
+            }
+            catch (error) {
+                console.error("An error occurred while fetching schools", error);
+                throw error;
+            }
         });
     }
     ;

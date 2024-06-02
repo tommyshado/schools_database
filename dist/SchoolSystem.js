@@ -10,19 +10,41 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 class SchoolSystem {
-    constructor(schools) {
+    constructor(schools, teachers) {
         this.schools = schools;
+        this.teachers = teachers;
     }
     createSchools(name, region) {
         return __awaiter(this, void 0, void 0, function* () {
-            const results = this.schools.createSchools(name, region);
+            const results = yield this.schools.createSchools(name, region);
             return results;
         });
     }
     ;
     getSchools() {
         return __awaiter(this, void 0, void 0, function* () {
-            const results = this.schools.getSchools();
+            const results = yield this.schools.getSchools();
+            return results;
+        });
+    }
+    ;
+    createATeacher(person) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const results = yield this.teachers.createATeacher(person);
+            return results;
+        });
+    }
+    ;
+    getTeachers() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const results = yield this.teachers.getTeachers();
+            return results;
+        });
+    }
+    ;
+    linkTeacherToSchool(teacherId, schoolId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const results = yield this.linkTeacherToSchool(teacherId, schoolId);
             return results;
         });
     }
