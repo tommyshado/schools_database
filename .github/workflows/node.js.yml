@@ -30,4 +30,4 @@ jobs:
     - run: npm run build --if-present
     - run: npm test
       env:
-          DB_URL: "postgresql://postgres:codex123@localhost:5432/schools"
+        DB_URL: "postgresql://postgres:codex123@localhost:5432/schools"
