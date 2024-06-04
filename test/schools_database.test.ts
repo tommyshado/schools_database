@@ -161,8 +161,6 @@ describe("Schools Database", function() {
             assert.equal(3, teachers.length);
             assert.equal(2, schools.length);
 
-            schools = await schoolsDb.getSchools();
-            teachers = await teachersDb.getTeachers();
             results = await teachersDb.linkTeacherToSchool(teachers[2].id as number, schools[1].id as number);
             assert.equal(true, results);
         });
