@@ -26,7 +26,7 @@ export default class SchoolSystem implements DbSchoolsInt, DbTeacherInt {
         return results;
     };
     async linkTeacherToSchool(teacherId: number, schoolId: number): Promise<boolean> {
-        const results = await this.linkTeacherToSchool(teacherId, schoolId);
+        const results = await this.teachers.linkTeacherToSchool(teacherId, schoolId);
         return results;
     };
 }
