@@ -7,6 +7,7 @@ export default class DbTeachers implements DbTeacherInt {
 
     async createATeacher(person: Person): Promise<boolean> {
         try {
+            if (Object.keys(person).length !== 3) return false;
             const query = "select * from add_teacher($1, $2, $3)";
             const data = [
                 person.firstName,
@@ -32,6 +33,7 @@ export default class DbTeachers implements DbTeacherInt {
     };
     async linkTeacherToSchool(teacherId: number, schoolId: number): Promise<boolean> {
         try {
+            if (!(teacherId && schoolId)) return false;
             const query = "select * from linkTeacherToSchool($1, $2)";
             const results = await this.db.oneOrNone(query, [teacherId, schoolId]);
             return results.linkteachertoschool;
