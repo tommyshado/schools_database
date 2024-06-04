@@ -22,7 +22,7 @@ jobs:
         postgres:
           image: postgres:latest
           env:
-            POSTGRES_USER: coder
+            POSTGRES_USER: codex-coder
             POSTGRES_PASSWORD: codex123
             POSTGRES_DB: schools
           ports:

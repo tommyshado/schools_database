@@ -21,7 +21,7 @@ do
 
             # Execute the SQL script using psql
             # Make sure to replace 'your_username', 'your_password', and 'your_database' with your actual PostgreSQL credentials
-            PGPASSWORD=codex123 psql -h localhost -U coder -d schools -a -f "$file"
+            PGPASSWORD=codex123 psql -h localhost -U codex-coder -d schools -a -f "$file"
         done
     else
         echo "Directory $dir does not exist."
