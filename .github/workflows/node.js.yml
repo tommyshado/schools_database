@@ -29,5 +29,5 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
-      env:
-        DB_URL: postgresql://postgres:codex123@localhost:5432/schools
+    env: 
+      DB_URL: postgresql://postgres:codex123@postgres:5432/schools
