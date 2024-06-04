@@ -40,7 +40,7 @@ jobs:
       run: npm install
     - name: create postgresql tables
       run: |
-        chmod +x./utils/run_sql_scripts.sh
+        chmod +x ./utils/run_sql_scripts.sh
         ./utils/run_sql_scripts.sh
     - name: run tests with postgresql
       run:
