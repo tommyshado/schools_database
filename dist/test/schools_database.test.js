@@ -16,8 +16,10 @@ const assert_1 = __importDefault(require("assert"));
 const DbSchools_1 = __importDefault(require("../DbSchools"));
 const Pool_1 = __importDefault(require("../model/Pool"));
 const DbTeachers_1 = __importDefault(require("../DbTeachers"));
+const SchoolSystem_1 = __importDefault(require("../SchoolSystem"));
 const schoolsDb = new DbSchools_1.default(Pool_1.default);
 const teachersDb = new DbTeachers_1.default(Pool_1.default);
+const schoolSystem = new SchoolSystem_1.default(schoolsDb, teachersDb);
 describe("Schools Database", function () {
     this.timeout(2000);
     beforeEach(() => __awaiter(this, void 0, void 0, function* () {
@@ -105,6 +107,50 @@ describe("Schools Database", function () {
             schools = yield schoolsDb.getSchools();
             teachers = yield teachersDb.getTeachers();
             results = yield teachersDb.linkTeacherToSchool(teachers[1].id, schools[1].id);
+            assert_1.default.equal(true, results);
+        }));
+    });
+    describe("SchoolSystem Class", function () {
+        it("should create schools using SchoolSystem Class", () => __awaiter(this, void 0, void 0, function* () {
+            const results = yield schoolSystem.createSchools("Luhlaza", "Khayelitsha");
+            assert_1.default.equal(true, results);
+            yield schoolSystem.createSchools("Luhlaza", "Khayelitsha");
+            let schools = yield schoolSystem.getSchools();
+            assert_1.default.equal(1, schools.length);
+            yield schoolSystem.createSchools("Zola High", "Bhongweni");
+            yield schoolSystem.createSchools("Epex Primary", "Blue Downs");
+            schools = yield schoolSystem.getSchools();
+            assert_1.default.equal(3, schools.length);
+        }));
+        it("should link teachers to a school using SchoolSystem Class", () => __awaiter(this, void 0, void 0, function* () {
+            yield teachersDb.createATeacher({
+                firstName: "Sive",
+                lastName: "Philani",
+                email: "sive@gmail.com"
+            });
+            yield teachersDb.createATeacher({
+                firstName: "Nathi",
+                lastName: "Philani",
+                email: "nathi@gmail.com"
+            });
+            yield schoolsDb.createSchools("Harry Gwala", "Site B");
+            let schools = yield schoolsDb.getSchools();
+            let teachers = yield teachersDb.getTeachers();
+            assert_1.default.equal(2, teachers.length);
+            assert_1.default.equal(1, schools.length);
+            let results = yield teachersDb.linkTeacherToSchool(teachers[0].id, schools[0].id);
+            assert_1.default.equal(true, results);
+            yield teachersDb.createATeacher({
+                firstName: "Gcogco",
+                lastName: "Tim",
+                email: "tim@gmail.com"
+            });
+            yield schoolsDb.createSchools("Bellevue", "Blue Downs");
+            teachers = yield teachersDb.getTeachers();
+            schools = yield schoolsDb.getSchools();
+            assert_1.default.equal(3, teachers.length);
+            assert_1.default.equal(2, schools.length);
+            results = yield teachersDb.linkTeacherToSchool(teachers[2].id, schools[1].id);
             assert_1.default.equal(true, results);
         }));
     });
