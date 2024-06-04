@@ -44,7 +44,7 @@ class SchoolSystem {
     ;
     linkTeacherToSchool(teacherId, schoolId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const results = yield this.linkTeacherToSchool(teacherId, schoolId);
+            const results = yield this.teachers.linkTeacherToSchool(teacherId, schoolId);
             return results;
         });
     }
