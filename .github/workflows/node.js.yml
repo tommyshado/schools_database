@@ -23,8 +23,8 @@ jobs:
           image: postgres:latest
           env:
             POSTGRES_USER: coder
-            POSTGES_PASSWORD: codex123
-            POSTGES_DB: schools
+            POSTGRES_PASSWORD: codex123
+            POSTGRES_DB: schools
           ports:
             - 5432:5432
           # Set health checks to wait until postgres has started
