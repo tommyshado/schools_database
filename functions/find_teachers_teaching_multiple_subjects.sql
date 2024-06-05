@@ -11,7 +11,7 @@ create or replace function find_teachers_teaching_multiple_subjects(number_of_su
         id int,
         first_name text,
         last_name text,
-        email text,
+        email text
     ) as
 $$
 
