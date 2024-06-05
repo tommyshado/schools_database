@@ -18,16 +18,32 @@ jobs:
       matrix:
         node-version: [18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    services:
+        postgres:
+          image: postgres:latest
+          env:
+            POSTGRES_USER: codex-coder
+            POSTGRES_PASSWORD: codex123
+            POSTGRES_DB: schools
+          ports:
+            - 5432:5432
+          # Set health checks to wait until postgres has started
+          options: >-
+            --health-cmd pg_isready
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
 
     steps:
     - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
-    env: 
-      DB_URL: postgresql://postgres:codex123@localhost:5432/schools
+    - name: Install dependencies
+      run: npm install
+    - name: create postgresql tables
+      run: |
+        chmod +x ./utils/run_sql_scripts.sh
+        ./utils/run_sql_scripts.sh
+    - name: run tests with postgresql
+      run:
+        npm test
+    env:
+      DB_URL: postgresql://codex-coder:codex123@localhost:5432/schools
