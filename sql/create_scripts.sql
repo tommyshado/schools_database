@@ -1,6 +1,11 @@
 create domain contact_name as 
    varchar not null check (value !~ '\s');
 
+create table grade(
+    id serial primary key,
+    name varchar not null unique
+);
+
 create table learner (
     id serial primary key,
     first_name contact_name,
@@ -52,9 +57,4 @@ create table teacher_subject (
     foreign key (teacher_id) references teacher(id),
     foreign key (subject_id) references subject(id),
     unique(teacher_id, subject_id)
-);
-
-create table grade(
-    id serial primary key,
-    name varchar not null unique
 );
