@@ -34,9 +34,9 @@ export default class DbTeachers implements DbTeacherInt {
     async linkTeacherToSchool(teacherId: number, schoolId: number): Promise<boolean> {
         try {
             if (!(teacherId && schoolId)) return false;
-            const query = "select * from linkTeacherToSchool($1, $2)";
+            const query = "select * from link_teacher_to_school($1, $2)";
             const results = await this.db.oneOrNone(query, [teacherId, schoolId]);
-            return results.linkteachertoschool;
+            return results.link_teacher_to_school;
         } catch (error) {
             console.error("An error occurred while linking a teacher to a school.", error);
             throw error;
