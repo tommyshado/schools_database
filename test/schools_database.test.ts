@@ -3,16 +3,21 @@ import DbSchools from '../DbSchools';
 import pool from '../model/Pool';
 import DbTeachers from '../DbTeachers';
 import SchoolSystem from '../SchoolSystem';
+import DbGrades from '../DbGrades';
+import DbLearners from '../DbLearners';
 
 const schoolsDb = new DbSchools(pool);
 const teachersDb = new DbTeachers(pool);
-const schoolSystem = new SchoolSystem(schoolsDb, teachersDb);
+const learnersDb = new DbLearners(pool);
+const gradesDb = new DbGrades(pool);
+const schoolSystem = new SchoolSystem(schoolsDb, teachersDb, learnersDb, gradesDb);
 
 describe("Schools Database", function() {
     this.timeout(2000);
     beforeEach(async () => {
         await pool.query("truncate table school cascade");
         await pool.query("truncate table teacher cascade");
+        await pool.query("truncate table grade cascade");
     });
 
     describe("DbSchools Database", () => {
@@ -110,6 +115,57 @@ describe("Schools Database", function() {
             results = await teachersDb.linkTeacherToSchool(teachers[1].id as number, schools[1].id as number);
             assert.equal(true, results);
         });
+    });
+
+    describe("DbLeaners Database", () => {
+        it("should create a learner", async () => {
+            // create learner grade
+            const grade = await gradesDb.createGrade("Grade-8");
+            assert.equal(true, grade);
+
+            const gradeData = await gradesDb.getGrades();
+            assert.equal("Grade-8", gradeData[0].name);
+
+            // create learner & link learner to grade
+            const learner = await learnersDb.createLearner({
+                firstName: "Mthunzi", 
+                lastName: "Turing", 
+                email: "mt@gmail", 
+                gradeId: gradeData[0].id
+            });
+            assert.equal(true, learner);
+        });
+        it("should link learners to a school", async () => {
+            // create learner grade
+            const grade = await gradesDb.createGrade("Grade-8");
+            assert.equal(true, grade);
+
+            const gradeData = await gradesDb.getGrades();
+            assert.equal("Grade-8", gradeData[0].name);
+
+            // create learner & link learner to grade
+            const learner = await learnersDb.createLearner({
+                firstName: "Mthunzi", 
+                lastName: "Turing", 
+                email: "mt@gmail", 
+                gradeId: gradeData[0].id
+            });
+            assert.equal(true, learner);
+
+            const learners = await learnersDb.getLearners();
+            // create a school
+            await schoolsDb.createSchools("Cape Town High", "Cape Town");
+            const school = await schoolsDb.getSchools();
+            let results = await learnersDb.linkLearnerToSchool(learners[0].id as number, school[0].id as number);
+
+            assert.equal(true, results);
+        });
+        // it("should change learners to another school", async () => {
+            
+        // });
+        // it("should find all the schools for a learner", async () => {
+
+        // });
     });
 
     describe("SchoolSystem Class", function() {
