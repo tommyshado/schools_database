@@ -15,10 +15,14 @@ const schoolSystem = new SchoolSystem(schoolsDb, teachersDb, learnersDb, gradesD
 describe("Schools Database", function () {
     this.timeout(2000);
     beforeEach(async () => {
-        await pool.query("truncate table school cascade");
-        await pool.query("truncate table teacher cascade");
-        await pool.query("truncate table grade cascade");
-        await pool.query("truncate table learner cascade");
+        await pool.query("truncate table school restart identity cascade");
+        await pool.query("truncate table learner_school restart identity cascade");
+        await pool.query("truncate table teacher_school restart identity cascade");
+        await pool.query("truncate table teacher restart identity cascade");
+        await pool.query("truncate table learner restart identity cascade");
+        await pool.query("truncate table grade restart identity cascade");
+        await pool.query("truncate table subject restart identity cascade");
+        await pool.query("truncate table teacher_subject restart identity cascade");
     });
 
     describe("DbSchools Database", () => {
@@ -192,7 +196,7 @@ describe("Schools Database", function () {
             // create a new school
             await schoolsDb.createSchools("Zola Business High", "Bhongweni");
             school = await schoolsDb.getSchools();
-            const linkedLearner = await learnersDb.linkLearnerToNewSchool(learners[0].id as number, school[1].id as number);
+            const linkedLearner = await learnersDb.linkLearnerToNewSchool(learners[0].id as number, school[0].id as number);
 
             assert.equal(true, linkedLearner);
             // Test for the previous school
@@ -229,26 +233,16 @@ describe("Schools Database", function () {
             // create a new school
             await schoolsDb.createSchools("Zola Business High", "Bhongweni");
             school = await schoolsDb.getSchools();
-            const linkedLearner = await learnersDb.linkLearnerToNewSchool(learners[0].id as number, school[1].id as number);
+
+            const linkedLearner = await learnersDb.linkLearnerToNewSchool(learners[0].id as number, school[0].id as number);
 
             assert.equal(true, linkedLearner);
             // Test for the previous school
-            results = await learnersDb.linkLearnerToSchool(learners[0].id as number, school[0].id as number);
+            results = await learnersDb.linkLearnerToSchool(learners[0].id as number, school[1].id as number);
             assert.equal(false, results);
 
             const learnersCurrentSchool = await learnersDb.getLearnersCurrentSchool(learners[0].id as number);
-
-            /*
-                {school} variable - Kept on changing the position on the data, so that's why I took this approach to get the {id}
-            */
-            let school_id: number = 0;
-            if (school[0].name.startsWith("Z")) {
-                school_id = school[0].id;
-            } else if (school[1].name.startsWith("Z")) {
-                school_id = school[1].id;
-            };
-
-            assert.deepStrictEqual({ id: school_id, name: 'Zola Business High' }, learnersCurrentSchool);
+            assert.deepStrictEqual({ id: school[0].id, name: 'Zola Business High' }, learnersCurrentSchool);
         });
 
         it("should find all the schools for a learner", async () => {

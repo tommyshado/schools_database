@@ -28,8 +28,9 @@ begin
             insert into learner_school (learner_id, school_id, current_school) 
                 values (the_learner_id, the_school_id, true);
             return true;
+        else 
+            return false;
         end if;
-        return false;
     end if;
     return false;
 end;
