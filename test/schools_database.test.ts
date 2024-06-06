@@ -236,6 +236,8 @@ describe("Schools Database", function () {
 
             const linkedLearner = await learnersDb.linkLearnerToNewSchool(learners[0].id as number, school[1].id as number);
 
+            console.log("********************", school.length);
+
             assert.equal(true, linkedLearner);
             // Test for the previous school
             results = await learnersDb.linkLearnerToSchool(learners[0].id as number, school[0].id as number);
