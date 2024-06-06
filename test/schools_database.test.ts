@@ -235,14 +235,13 @@ describe("Schools Database", function () {
             school = await schoolsDb.getSchools();
 
             const linkedLearner = await learnersDb.linkLearnerToNewSchool(learners[0].id as number, school[1].id as number);
-
-            console.log("********************", school.length);
-
             assert.equal(true, linkedLearner);
             // Test for the previous school
             results = await learnersDb.linkLearnerToSchool(learners[0].id as number, school[0].id as number);
             assert.equal(false, results);
 
+            console.log("schools", school);
+            
             const learnersCurrentSchool = await learnersDb.getLearnersCurrentSchool(learners[0].id as number);
             assert.deepEqual({ id: school[1].id, name: 'Zola Business High' }, learnersCurrentSchool);
         });

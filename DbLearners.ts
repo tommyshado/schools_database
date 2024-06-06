@@ -79,8 +79,6 @@ export default class DbLearners implements DbLearnersInt {
             };
             const query = "select * from get_learners_current_school($1)";
             const results = await this.db.oneOrNone(query, [learnerId]);
-            console.log("--------------------", results);
-            
             return results;
         } catch (error) {
             console.error("An error occurred while fetching a learner's current school.", error);
