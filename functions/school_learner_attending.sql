@@ -11,7 +11,7 @@ create type school_type as (
     name varchar
 );
 
-create or replace function getLearnersCurrentSchool(the_learner_id int)
+create or replace function get_learners_current_school(the_learner_id int)
     returns table (
         school_row school_type
     ) as

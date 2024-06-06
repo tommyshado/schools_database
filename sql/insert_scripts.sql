@@ -1,3 +1,13 @@
+-- truncate tables
+truncate table school restart identity cascade;
+truncate table learner_school restart identity cascade;
+truncate table teacher_school restart identity cascade;
+truncate table subject restart identity cascade;
+truncate table teacher_subject restart identity cascade;
+truncate table teacher restart identity cascade;
+truncate table learner restart identity cascade;
+truncate table grade restart identity cascade;
+
 -- grade table
 insert into grade (name) values ('Grade-12');
 insert into grade (name) values ('Grade-11');
@@ -24,6 +34,7 @@ insert into school (name, region) values ('Masiphakame', 'Khayelitsha');
 insert into learner_school (learner_id, school_id, current_school) values (1, 1, true);
 insert into learner_school (learner_id, school_id, current_school) values (2, 2, true);
 insert into learner_school (learner_id, school_id, current_school) values (3, 3, false);
+insert into learner_school (learner_id, school_id, current_school) values (3, 4, true);
 insert into learner_school (learner_id, school_id, current_school) values (4, 4, false);
 insert into learner_school (learner_id, school_id, current_school) values (5, 5, true);
 

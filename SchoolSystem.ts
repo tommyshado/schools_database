@@ -63,6 +63,21 @@ export default class SchoolSystem implements DbSchoolsInt, DbTeacherInt, DbLearn
         return results;
     };
 
+    async linkLearnerToNewSchool(learnerId: number, schoolId: number): Promise<boolean> {
+        const results = await this.learners.linkLearnerToNewSchool(learnerId, schoolId);
+        return results;
+    };
+
+    async getPastLearnerSchools(learnerId: number): Promise<SchoolsTypeInt[]> {
+        const results = await this.learners.getPastLearnerSchools(learnerId);
+        return results;
+    };
+
+    async getLearnersCurrentSchool(learnerId: number): Promise<SchoolsTypeInt> {
+        const results = await this.learners.getLearnersCurrentSchool(learnerId);
+        return results;
+    };
+
     // Grades functionalities
     async createGrade(the_name: string): Promise<boolean> {
         const results = await this.grades.createGrade(the_name);
