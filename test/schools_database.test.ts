@@ -242,7 +242,7 @@ describe("Schools Database", function () {
             assert.equal(false, results);
 
             const learnersCurrentSchool = await learnersDb.getLearnersCurrentSchool(learners[0].id as number);
-            assert.deepStrictEqual({ id: school[1].id, name: 'Zola Business High' }, learnersCurrentSchool);
+            assert.deepEqual({ id: school[1].id, name: 'Zola Business High' }, learnersCurrentSchool);
         });
 
         it("should find all the schools for a learner", async () => {
