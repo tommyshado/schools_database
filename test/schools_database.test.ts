@@ -234,15 +234,15 @@ describe("Schools Database", function () {
             await schoolsDb.createSchools("Zola Business High", "Bhongweni");
             school = await schoolsDb.getSchools();
 
-            const linkedLearner = await learnersDb.linkLearnerToNewSchool(learners[0].id as number, school[0].id as number);
+            const linkedLearner = await learnersDb.linkLearnerToNewSchool(learners[0].id as number, school[1].id as number);
 
             assert.equal(true, linkedLearner);
             // Test for the previous school
-            results = await learnersDb.linkLearnerToSchool(learners[0].id as number, school[1].id as number);
+            results = await learnersDb.linkLearnerToSchool(learners[0].id as number, school[0].id as number);
             assert.equal(false, results);
 
             const learnersCurrentSchool = await learnersDb.getLearnersCurrentSchool(learners[0].id as number);
-            assert.deepStrictEqual({ id: school[0].id, name: 'Zola Business High' }, learnersCurrentSchool);
+            assert.deepStrictEqual({ id: school[1].id, name: 'Zola Business High' }, learnersCurrentSchool);
         });
 
         it("should find all the schools for a learner", async () => {
