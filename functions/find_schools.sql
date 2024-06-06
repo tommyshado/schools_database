@@ -18,6 +18,7 @@ begin
         left join learner_school ls on s.id = ls.school_id
         left join teacher_school ts on s.id = ts.school_id
         group by s.id;
+        order by s.id;
 end;
 $$
 Language plpgsql;
