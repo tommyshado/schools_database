@@ -6,7 +6,7 @@
 -- Raises: Nothing
 -- Side Effects: It retrieves the schools that the specified learner is associated with from the learner, learner_school, and school tables.
 
-create or replace function getSchoolsForLearner(the_learner_id int)
+create or replace function get_schools_for_learner(the_learner_id int)
     returns table (
         school_row school_type
     ) as

@@ -1,6 +1,7 @@
 import pgPromise from "pg-promise";
 import { DbLearnersInt } from "./DbLearnersInt";
 import { Person } from "./PersonInt";
+import { SchoolsTypeInt } from "./DbSchoolsInt";
 
 export default class DbLearners implements DbLearnersInt {
     constructor(private db: pgPromise.IDatabase<any>) {};
@@ -22,6 +23,7 @@ export default class DbLearners implements DbLearnersInt {
             throw error;
         };
     };
+
     async linkLearnerToSchool(learnerId: number, schoolId: number): Promise<boolean> {
         try {
             if (!(learnerId && schoolId)) return false;
@@ -33,6 +35,7 @@ export default class DbLearners implements DbLearnersInt {
             throw error;
         };
     };
+
     async getLearners(): Promise<Person[]> {
         try {
             const query = "select * from find_learner()";
@@ -42,5 +45,44 @@ export default class DbLearners implements DbLearnersInt {
             console.error("An error occurred while fetching learners.", error);
             throw error;
         }
+    };
+
+    async linkLearnerToNewSchool(learnerId: number, schoolId: number): Promise<boolean> {
+        try {
+            if (!(learnerId && schoolId)) return false;
+            const query = "select * from change_learner_school($1, $2)";
+            const results = await this.db.oneOrNone(query, [learnerId, schoolId]);
+            return results.change_learner_school;
+        } catch (error) {
+            console.error("An error occurred while linking a learner school to a new school.", error);
+            throw error;
+        };
+    };
+
+    async getPastLearnerSchools(learnerId: number): Promise<SchoolsTypeInt[]> {
+        try {
+            if (!learnerId) return [];
+            const query = "select * from get_schools_for_learner($1)";
+            const results = await this.db.manyOrNone(query, [learnerId]);
+            return results;
+        } catch (error) {
+            console.error("An error occurred while fetching all the past schools for a learner.", error);
+            throw error;
+        };
+    };
+
+    async getLearnersCurrentSchool(learnerId: number): Promise<SchoolsTypeInt> {
+        try {
+            if (!learnerId) return {
+                id: 0,
+                name: "",
+            };
+            const query = "select * from get_learners_current_school($1)";
+            const results = await this.db.oneOrNone(query, [learnerId]);
+            return results;
+        } catch (error) {
+            console.error("An error occurred while fetching a learner's current school.", error);
+            throw error;
+        };
     };
 };
