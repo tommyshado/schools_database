@@ -237,7 +237,18 @@ describe("Schools Database", function () {
             assert.equal(false, results);
 
             const learnersCurrentSchool = await learnersDb.getLearnersCurrentSchool(learners[0].id as number);
-            assert.deepStrictEqual({ id: school[1].id, name: 'Zola Business High' }, learnersCurrentSchool);
+
+            /*
+                {school} variable - Kept on changing the position on the data, so that's why I took this approach to get the {id}
+            */
+            let school_id: number = 0;
+            if (school[0].name.startsWith("Z")) {
+                school_id = school[0].id;
+            } else if (school[1].name.startsWith("Z")) {
+                school_id = school[1].id;
+            };
+
+            assert.deepStrictEqual({ id: school_id, name: 'Zola Business High' }, learnersCurrentSchool);
         });
 
         it("should find all the schools for a learner", async () => {
