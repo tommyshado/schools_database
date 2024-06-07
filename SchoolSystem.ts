@@ -1,20 +1,20 @@
-import { DbSchoolsInt } from "./DbSchoolsInt";
-import DbSchools from "./DbSchools";
-import { SchoolsTypeInt } from "./DbSchoolsInt";
-import { DbTeacherInt } from "./DbTeachersInt";
-import DbTeachers from "./DbTeachers";
-import { Person } from "./PersonInt";
-import { DbLearnersInt } from "./DbLearnersInt";
-import DbLearners from "./DbLearners";
-import { DbGradesInt, Grade } from "./DbGradesInt";
-import DbGrades from "./DbGrades";
+import { ISchools } from "./ISchools";
+import DbSchools from "./SchoolsImpl";
+import { ISchoolsType } from "./ISchools";
+import { ITeachers } from "./ITeachers";
+import TeacherImpl from "./TeacherImpl";
+import { IPerson } from "./IPerson";
+import { ILearners } from "./ILearners";
+import LearnersImpl from "./LearnersImpl";
+import IGrades, { IGrade } from "./IGrades";
+import GradesImpl from "./GradesImpl";
 
-export default class SchoolSystem implements DbSchoolsInt, DbTeacherInt, DbLearnersInt, DbGradesInt {
+export default class SchoolSystem implements ISchools, ITeachers, ILearners, IGrades {
     constructor(
         private schools: DbSchools,
-        private teachers: DbTeachers,
-        private learners: DbLearners,
-        private grades: DbGrades
+        private teachers: TeacherImpl,
+        private learners: LearnersImpl,
+        private grades: GradesImpl
     ) {}
 
     // Schools functionalities
@@ -23,18 +23,18 @@ export default class SchoolSystem implements DbSchoolsInt, DbTeacherInt, DbLearn
         return results;
     };
 
-    async getSchools(): Promise<SchoolsTypeInt[]> {
+    async getSchools(): Promise<ISchoolsType[]> {
         const results = await this.schools.getSchools();
         return results;
     };
 
     // Teachers functionalities
-    async createATeacher(person: Person): Promise<boolean> {
+    async createATeacher(person: IPerson): Promise<boolean> {
         const results = await this.teachers.createATeacher(person);
         return results;
     };
 
-    async getTeachers(): Promise<Person[]> {
+    async getTeachers(): Promise<IPerson[]> {
         const results = await this.teachers.getTeachers();
         return results;
     };
@@ -48,12 +48,12 @@ export default class SchoolSystem implements DbSchoolsInt, DbTeacherInt, DbLearn
     };
 
     // Learners functionalities
-    async createLearner(person: Person): Promise<boolean> {
+    async createLearner(person: IPerson): Promise<boolean> {
         const results = await this.learners.createLearner(person);
         return results;
     };
 
-    async getLearners(): Promise<Person[]> {
+    async getLearners(): Promise<IPerson[]> {
         const results = await this.learners.getLearners();
         return results;
     };
@@ -68,12 +68,12 @@ export default class SchoolSystem implements DbSchoolsInt, DbTeacherInt, DbLearn
         return results;
     };
 
-    async getPastLearnerSchools(learnerId: number): Promise<SchoolsTypeInt[]> {
+    async getPastLearnerSchools(learnerId: number): Promise<ISchoolsType[]> {
         const results = await this.learners.getPastLearnerSchools(learnerId);
         return results;
     };
 
-    async getLearnersCurrentSchool(learnerId: number): Promise<SchoolsTypeInt> {
+    async getLearnersCurrentSchool(learnerId: number): Promise<ISchoolsType> {
         const results = await this.learners.getLearnersCurrentSchool(learnerId);
         return results;
     };
@@ -84,7 +84,7 @@ export default class SchoolSystem implements DbSchoolsInt, DbTeacherInt, DbLearn
         return results;
     };
 
-    async getGrades(): Promise<Grade[]> {
+    async getGrades(): Promise<IGrade[]> {
         const results = await this.grades.getGrades();
         return results;
     };

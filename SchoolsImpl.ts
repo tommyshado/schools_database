@@ -1,7 +1,7 @@
-import { DbSchoolsInt, SchoolsTypeInt } from "./DbSchoolsInt";
+import { ISchools, ISchoolsType } from "./ISchools";
 import pgPromise from "pg-promise";
 
-export default class DbSchools implements DbSchoolsInt {
+export default class SchoolsImpl implements ISchools {
     constructor (private db: pgPromise.IDatabase<any>) {};
 
     async createSchools(name: string, region: string): Promise<boolean> {
@@ -15,7 +15,7 @@ export default class DbSchools implements DbSchoolsInt {
             throw error;
         }
     };
-    async getSchools(): Promise<SchoolsTypeInt[]> {
+    async getSchools(): Promise<ISchoolsType[]> {
         try {
             const query = "select * from find_schools()";
             const results = await this.db.manyOrNone(query);
