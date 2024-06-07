@@ -1,7 +1,7 @@
 import pgPromise from "pg-promise";
-import { DbGradesInt, Grade } from "./DbGradesInt";
+import IGrades, { IGrade } from "./IGrades";
 
-export default class DbGrades implements DbGradesInt {
+export default class GradesImpl implements IGrades {
     constructor(private db: pgPromise.IDatabase<any>) {};
 
     async createGrade(the_name: string): Promise<boolean> {
@@ -15,7 +15,7 @@ export default class DbGrades implements DbGradesInt {
             throw error;
         }
     };
-    async getGrades(): Promise<Grade[]> {
+    async getGrades(): Promise<IGrade[]> {
         try {
             const query = "select * from find_grades()";
             const results = await this.db.manyOrNone(query);

@@ -1,12 +1,12 @@
 import pgPromise from "pg-promise";
-import { DbLearnersInt } from "./DbLearnersInt";
-import { Person } from "./PersonInt";
-import { SchoolsTypeInt } from "./DbSchoolsInt";
+import { ILearners } from "./ILearners";
+import { IPerson } from "./IPerson";
+import { ISchoolsType } from "./ISchools";
 
-export default class DbLearners implements DbLearnersInt {
+export default class LearnersImpl implements ILearners {
     constructor(private db: pgPromise.IDatabase<any>) {};
 
-    async createLearner(person: Person): Promise<boolean> {
+    async createLearner(person: IPerson): Promise<boolean> {
         try {
             if (Object.keys(person).length !== 4) return false;
             const query = "select * from create_learner($1, $2, $3, $4)";
@@ -36,7 +36,7 @@ export default class DbLearners implements DbLearnersInt {
         };
     };
 
-    async getLearners(): Promise<Person[]> {
+    async getLearners(): Promise<IPerson[]> {
         try {
             const query = "select * from find_learner()";
             const results = await this.db.manyOrNone(query);
@@ -59,7 +59,7 @@ export default class DbLearners implements DbLearnersInt {
         };
     };
 
-    async getPastLearnerSchools(learnerId: number): Promise<SchoolsTypeInt[]> {
+    async getPastLearnerSchools(learnerId: number): Promise<ISchoolsType[]> {
         try {
             if (!learnerId) return [];
             const query = "select * from get_schools_for_learner($1)";
@@ -71,7 +71,7 @@ export default class DbLearners implements DbLearnersInt {
         };
     };
 
-    async getLearnersCurrentSchool(learnerId: number): Promise<SchoolsTypeInt> {
+    async getLearnersCurrentSchool(learnerId: number): Promise<ISchoolsType> {
         try {
             if (!learnerId) return {
                 id: 0,

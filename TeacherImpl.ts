@@ -1,11 +1,11 @@
-import { DbTeacherInt } from "./DbTeachersInt";
-import { Person } from "./PersonInt";
+import { ITeachers } from "./ITeachers";
+import { IPerson } from "./IPerson";
 import pgPromise from "pg-promise";
 
-export default class DbTeachers implements DbTeacherInt {
+export default class TeacherImpl implements ITeachers {
     constructor(private db: pgPromise.IDatabase<any>) {};
 
-    async createATeacher(person: Person): Promise<boolean> {
+    async createATeacher(person: IPerson): Promise<boolean> {
         try {
             if (Object.keys(person).length !== 3) return false;
             const query = "select * from add_teacher($1, $2, $3)";
@@ -21,7 +21,7 @@ export default class DbTeachers implements DbTeacherInt {
             throw error;
         };
     };
-    async getTeachers(): Promise<Person[]> {
+    async getTeachers(): Promise<IPerson[]> {
         try {
             const query = "select * from findTeachers()";
             const results = await this.db.manyOrNone(query);

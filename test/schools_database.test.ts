@@ -1,16 +1,16 @@
 import assert from 'assert';
-import DbSchools from '../DbSchools';
+import SchoolsImpl from '../SchoolsImpl';
 import pool from '../model/Pool';
-import DbTeachers from '../DbTeachers';
+import TeacherImpl from '../TeacherImpl';
 import SchoolSystem from '../SchoolSystem';
-import DbGrades from '../DbGrades';
-import DbLearners from '../DbLearners';
+import GradesImpl from '../GradesImpl';
+import LearnersImpl from '../LearnersImpl';
 
-const schoolsDb = new DbSchools(pool);
-const teachersDb = new DbTeachers(pool);
-const learnersDb = new DbLearners(pool);
-const gradesDb = new DbGrades(pool);
-const schoolSystem = new SchoolSystem(schoolsDb, teachersDb, learnersDb, gradesDb);
+const schoolsImpl = new SchoolsImpl(pool);
+const teachersImpl = new TeacherImpl(pool);
+const learnersImpl = new LearnersImpl(pool);
+const gradesImpl = new GradesImpl(pool);
+const schoolSystem = new SchoolSystem(schoolsImpl, teachersImpl, learnersImpl, gradesImpl);
 
 describe("Schools Database", function () {
     this.timeout(2000);
@@ -27,35 +27,35 @@ describe("Schools Database", function () {
 
     describe("DbSchools Database", () => {
         it("should create a school", async () => {
-            const results = await schoolsDb.createSchools("Luhlaza", "Khayelitsha");
+            const results = await schoolsImpl.createSchools("Luhlaza", "Khayelitsha");
             assert.equal(true, results);
         });
 
         it("should create more schools", async () => {
-            await schoolsDb.createSchools("Cape Town High", "Cape Town");
-            const results = await schoolsDb.createSchools("Cape Town High", "Cape Town");
+            await schoolsImpl.createSchools("Cape Town High", "Cape Town");
+            const results = await schoolsImpl.createSchools("Cape Town High", "Cape Town");
             assert.equal(false, results);
 
-            let schools = await schoolsDb.getSchools();
+            let schools = await schoolsImpl.getSchools();
             assert.equal(1, schools.length);
 
-            await schoolsDb.createSchools("Zonnebloem", "Cape Town");
-            await schoolsDb.createSchools("Wineberg High", "Wineberg");
+            await schoolsImpl.createSchools("Zonnebloem", "Cape Town");
+            await schoolsImpl.createSchools("Wineberg High", "Wineberg");
             // Update the schools variable with the newly added schools
-            schools = await schoolsDb.getSchools();
+            schools = await schoolsImpl.getSchools();
             assert.equal(3, schools.length);
         });
     });
 
     describe("DbTeacher Database", () => {
         it("should create a teacher", async () => {
-            const results = await teachersDb.createATeacher({
+            const results = await teachersImpl.createATeacher({
                 firstName: "Sbu",
                 lastName: "Tom",
                 email: "sbu@gmail.com"
             });
             assert.equal(true, results);
-            const results__ = await teachersDb.createATeacher({
+            const results__ = await teachersImpl.createATeacher({
                 firstName: "Sbu",
                 lastName: "Tom",
                 email: "sbu@gmail.com"
@@ -64,60 +64,60 @@ describe("Schools Database", function () {
         });
 
         it("should create teachers", async () => {
-            await teachersDb.createATeacher({
+            await teachersImpl.createATeacher({
                 firstName: "Ace",
                 lastName: "Tom",
                 email: "ace@gmail.com"
             });
-            let teachers = await teachersDb.getTeachers();
+            let teachers = await teachersImpl.getTeachers();
             assert.equal(1, teachers.length);
-            await teachersDb.createATeacher({
+            await teachersImpl.createATeacher({
                 firstName: "Sbu",
                 lastName: "Tom",
                 email: "sbu@gmail.com"
             });
-            teachers = await teachersDb.getTeachers();
+            teachers = await teachersImpl.getTeachers();
             assert.equal(2, teachers.length);
         });
 
         it("should link a teacher to a school", async () => {
-            await teachersDb.createATeacher({
+            await teachersImpl.createATeacher({
                 firstName: "Otha",
                 lastName: "Moya",
                 email: "moya@gmail.com"
             });
-            await schoolsDb.createSchools("Gugs High", "Gugulethu");
+            await schoolsImpl.createSchools("Gugs High", "Gugulethu");
 
-            const schools = await schoolsDb.getSchools();
-            const teachers = await teachersDb.getTeachers();
-            const results = await teachersDb.linkTeacherToSchool(teachers[0].id as number, schools[0].id as number);
+            const schools = await schoolsImpl.getSchools();
+            const teachers = await teachersImpl.getTeachers();
+            const results = await teachersImpl.linkTeacherToSchool(teachers[0].id as number, schools[0].id as number);
 
             assert.equal(true, results);
         });
 
         it("should link teachers to schools", async () => {
-            await teachersDb.createATeacher({
+            await teachersImpl.createATeacher({
                 firstName: "Nathi",
                 lastName: "Gcogco",
                 email: "nathi@gmail.com"
             });
-            await schoolsDb.createSchools("Harry Gwala", "Site B");
+            await schoolsImpl.createSchools("Harry Gwala", "Site B");
 
-            let schools = await schoolsDb.getSchools();
-            let teachers = await teachersDb.getTeachers();
-            let results = await teachersDb.linkTeacherToSchool(teachers[0].id as number, schools[0].id as number);
+            let schools = await schoolsImpl.getSchools();
+            let teachers = await teachersImpl.getTeachers();
+            let results = await teachersImpl.linkTeacherToSchool(teachers[0].id as number, schools[0].id as number);
             assert.equal(true, results);
 
-            await teachersDb.createATeacher({
+            await teachersImpl.createATeacher({
                 firstName: "Gcogco",
                 lastName: "Tim",
                 email: "tim@gmail.com"
             });
-            await schoolsDb.createSchools("Bellevue", "Blue Downs");
+            await schoolsImpl.createSchools("Bellevue", "Blue Downs");
 
-            schools = await schoolsDb.getSchools();
-            teachers = await teachersDb.getTeachers();
-            results = await teachersDb.linkTeacherToSchool(teachers[1].id as number, schools[1].id as number);
+            schools = await schoolsImpl.getSchools();
+            teachers = await teachersImpl.getTeachers();
+            results = await teachersImpl.linkTeacherToSchool(teachers[1].id as number, schools[1].id as number);
             assert.equal(true, results);
         });
     });
@@ -125,14 +125,14 @@ describe("Schools Database", function () {
     describe("DbLeaners Database", () => {
         it("should create a learner", async () => {
             // create learner grade
-            const grade = await gradesDb.createGrade("Grade-8");
+            const grade = await gradesImpl.createGrade("Grade-8");
             assert.equal(true, grade);
 
-            const gradeData = await gradesDb.getGrades();
+            const gradeData = await gradesImpl.getGrades();
             assert.equal("Grade-8", gradeData[0].name);
 
             // create learner & link learner to grade
-            const learner = await learnersDb.createLearner({
+            const learner = await learnersImpl.createLearner({
                 firstName: "Mthunzi",
                 lastName: "Turing",
                 email: "mt@gmail",
@@ -143,14 +143,14 @@ describe("Schools Database", function () {
 
         it("should link learners to a school", async () => {
             // create learner grade
-            const grade = await gradesDb.createGrade("Grade-8");
+            const grade = await gradesImpl.createGrade("Grade-8");
             assert.equal(true, grade);
 
-            const gradeData = await gradesDb.getGrades();
+            const gradeData = await gradesImpl.getGrades();
             assert.equal("Grade-8", gradeData[0].name);
 
             // create learner & link learner to grade
-            const learner = await learnersDb.createLearner({
+            const learner = await learnersImpl.createLearner({
                 firstName: "Mthunzi",
                 lastName: "Turing",
                 email: "mt@gmail",
@@ -158,25 +158,25 @@ describe("Schools Database", function () {
             });
             assert.equal(true, learner);
 
-            const learners = await learnersDb.getLearners();
+            const learners = await learnersImpl.getLearners();
             // create a school
-            await schoolsDb.createSchools("Cape Town High", "Cape Town");
-            const school = await schoolsDb.getSchools();
-            let results = await learnersDb.linkLearnerToSchool(learners[0].id as number, school[0].id as number);
+            await schoolsImpl.createSchools("Cape Town High", "Cape Town");
+            const school = await schoolsImpl.getSchools();
+            let results = await learnersImpl.linkLearnerToSchool(learners[0].id as number, school[0].id as number);
 
             assert.equal(true, results);
         });
 
         it("should change learners to another school", async () => {
             // create learner grade
-            const grade = await gradesDb.createGrade("Grade-11");
+            const grade = await gradesImpl.createGrade("Grade-11");
             assert.equal(true, grade);
 
-            const gradeData = await gradesDb.getGrades();
+            const gradeData = await gradesImpl.getGrades();
             assert.equal("Grade-11", gradeData[0].name);
 
             // create learner & link learner to grade
-            const learner = await learnersDb.createLearner({
+            const learner = await learnersImpl.createLearner({
                 firstName: "Othalive",
                 lastName: "Moya",
                 email: "ot@gmail.com",
@@ -184,36 +184,36 @@ describe("Schools Database", function () {
             });
             assert.equal(true, learner);
 
-            const learners = await learnersDb.getLearners();
+            const learners = await learnersImpl.getLearners();
             assert.equal(1, learners.length);
 
             // create a school
-            await schoolsDb.createSchools("Cape Town High", "Cape Town");
-            let school = await schoolsDb.getSchools();
-            let results = await learnersDb.linkLearnerToSchool(learners[0].id as number, school[0].id as number);
+            await schoolsImpl.createSchools("Cape Town High", "Cape Town");
+            let school = await schoolsImpl.getSchools();
+            let results = await learnersImpl.linkLearnerToSchool(learners[0].id as number, school[0].id as number);
             assert.equal(true, results);
 
             // create a new school
-            await schoolsDb.createSchools("Zola Business High", "Bhongweni");
-            school = await schoolsDb.getSchools();
-            const linkedLearner = await learnersDb.linkLearnerToNewSchool(learners[0].id as number, school[0].id as number);
+            await schoolsImpl.createSchools("Zola Business High", "Bhongweni");
+            school = await schoolsImpl.getSchools();
+            const linkedLearner = await learnersImpl.linkLearnerToNewSchool(learners[0].id as number, school[0].id as number);
 
             assert.equal(true, linkedLearner);
             // Test for the previous school
-            results = await learnersDb.linkLearnerToSchool(learners[0].id as number, school[0].id as number);
+            results = await learnersImpl.linkLearnerToSchool(learners[0].id as number, school[0].id as number);
             assert.equal(false, results);
         });
 
         it("should find a learner's current school", async () => {
             // create learner grade
-            const grade = await gradesDb.createGrade("Grade-6");
+            const grade = await gradesImpl.createGrade("Grade-6");
             assert.equal(true, grade);
 
-            const gradeData = await gradesDb.getGrades();
+            const gradeData = await gradesImpl.getGrades();
             assert.equal("Grade-6", gradeData[0].name);
 
             // create learner & link learner to grade
-            const learner = await learnersDb.createLearner({
+            const learner = await learnersImpl.createLearner({
                 firstName: "Landon",
                 lastName: "Tom",
                 email: "landa@gmail.com",
@@ -221,39 +221,39 @@ describe("Schools Database", function () {
             });
             assert.equal(true, learner);
 
-            const learners = await learnersDb.getLearners();
+            const learners = await learnersImpl.getLearners();
             assert.equal(1, learners.length);
 
             // create a school
-            await schoolsDb.createSchools("Cape Town High", "Cape Town");
-            let school = await schoolsDb.getSchools();
-            let results = await learnersDb.linkLearnerToSchool(learners[0].id as number, school[0].id as number);
+            await schoolsImpl.createSchools("Cape Town High", "Cape Town");
+            let school = await schoolsImpl.getSchools();
+            let results = await learnersImpl.linkLearnerToSchool(learners[0].id as number, school[0].id as number);
             assert.equal(true, results);
 
             // create a new school
-            await schoolsDb.createSchools("Zola Business High", "Bhongweni");
-            school = await schoolsDb.getSchools();
+            await schoolsImpl.createSchools("Zola Business High", "Bhongweni");
+            school = await schoolsImpl.getSchools();
 
-            const linkedLearner = await learnersDb.linkLearnerToNewSchool(learners[0].id as number, school[1].id as number);
+            const linkedLearner = await learnersImpl.linkLearnerToNewSchool(learners[0].id as number, school[1].id as number);
             assert.equal(true, linkedLearner);
             // Test for the previous school
-            results = await learnersDb.linkLearnerToSchool(learners[0].id as number, school[0].id as number);
+            results = await learnersImpl.linkLearnerToSchool(learners[0].id as number, school[0].id as number);
             assert.equal(false, results);
             
-            const learnersCurrentSchool = await learnersDb.getLearnersCurrentSchool(learners[0].id as number);
+            const learnersCurrentSchool = await learnersImpl.getLearnersCurrentSchool(learners[0].id as number);
             assert.deepEqual({ id: school[1].id, name: 'Zola Business High' }, learnersCurrentSchool);
         });
 
         it("should find all the schools for a learner", async () => {
             // create learner grade
-            const grade = await gradesDb.createGrade("Grade-11");
+            const grade = await gradesImpl.createGrade("Grade-11");
             assert.equal(true, grade);
 
-            const gradeData = await gradesDb.getGrades();
+            const gradeData = await gradesImpl.getGrades();
             assert.equal("Grade-11", gradeData[0].name);
 
             // create learner & link learner to grade
-            const learner = await learnersDb.createLearner({
+            const learner = await learnersImpl.createLearner({
                 firstName: "Ace",
                 lastName: "Tom",
                 email: "ace@gmail.com",
@@ -261,26 +261,26 @@ describe("Schools Database", function () {
             });
             assert.equal(true, learner);
 
-            const learners = await learnersDb.getLearners();
+            const learners = await learnersImpl.getLearners();
             assert.equal(1, learners.length);
 
             // create a school
-            await schoolsDb.createSchools("Cape Town High", "Cape Town");
-            let school = await schoolsDb.getSchools();
-            let results = await learnersDb.linkLearnerToSchool(learners[0].id as number, school[0].id as number);
+            await schoolsImpl.createSchools("Cape Town High", "Cape Town");
+            let school = await schoolsImpl.getSchools();
+            let results = await learnersImpl.linkLearnerToSchool(learners[0].id as number, school[0].id as number);
             assert.equal(true, results);
 
             // create a new school
-            await schoolsDb.createSchools("Zola Business High", "Bhongweni");
-            school = await schoolsDb.getSchools();
-            const linkedLearner = await learnersDb.linkLearnerToNewSchool(learners[0].id as number, school[1].id as number);
+            await schoolsImpl.createSchools("Zola Business High", "Bhongweni");
+            school = await schoolsImpl.getSchools();
+            const linkedLearner = await learnersImpl.linkLearnerToNewSchool(learners[0].id as number, school[1].id as number);
 
             assert.equal(true, linkedLearner);
             // Test for the previous school
-            results = await learnersDb.linkLearnerToSchool(learners[0].id as number, school[0].id as number);
+            results = await learnersImpl.linkLearnerToSchool(learners[0].id as number, school[0].id as number);
             assert.equal(false, results);
 
-            const allPastSchools = await learnersDb.getPastLearnerSchools(learners[0].id as number);
+            const allPastSchools = await learnersImpl.getPastLearnerSchools(learners[0].id as number);
             assert.equal(2, allPastSchools.length);
         });
     });
@@ -300,41 +300,41 @@ describe("Schools Database", function () {
             assert.equal(3, schools.length);
         });
         it("should link teachers to a school using SchoolSystem Class", async () => {
-            await teachersDb.createATeacher({
+            await teachersImpl.createATeacher({
                 firstName: "Sive",
                 lastName: "Philani",
                 email: "sive@gmail.com"
             });
-            await teachersDb.createATeacher({
+            await teachersImpl.createATeacher({
                 firstName: "Nathi",
                 lastName: "Philani",
                 email: "nathi@gmail.com"
             });
-            await schoolsDb.createSchools("Harry Gwala", "Site B");
+            await schoolsImpl.createSchools("Harry Gwala", "Site B");
 
-            let schools = await schoolsDb.getSchools();
-            let teachers = await teachersDb.getTeachers();
+            let schools = await schoolsImpl.getSchools();
+            let teachers = await teachersImpl.getTeachers();
 
             assert.equal(2, teachers.length);
             assert.equal(1, schools.length);
 
-            let results = await teachersDb.linkTeacherToSchool(teachers[0].id as number, schools[0].id as number);
+            let results = await teachersImpl.linkTeacherToSchool(teachers[0].id as number, schools[0].id as number);
             assert.equal(true, results);
 
-            await teachersDb.createATeacher({
+            await teachersImpl.createATeacher({
                 firstName: "Gcogco",
                 lastName: "Tim",
                 email: "tim@gmail.com"
             });
-            await schoolsDb.createSchools("Bellevue", "Blue Downs");
+            await schoolsImpl.createSchools("Bellevue", "Blue Downs");
 
-            teachers = await teachersDb.getTeachers();
-            schools = await schoolsDb.getSchools();
+            teachers = await teachersImpl.getTeachers();
+            schools = await schoolsImpl.getSchools();
 
             assert.equal(3, teachers.length);
             assert.equal(2, schools.length);
 
-            results = await teachersDb.linkTeacherToSchool(teachers[2].id as number, schools[1].id as number);
+            results = await teachersImpl.linkTeacherToSchool(teachers[2].id as number, schools[1].id as number);
             assert.equal(true, results);
         });
     });
