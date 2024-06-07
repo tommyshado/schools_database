@@ -181,7 +181,7 @@ describe("Schools Database", function () {
             // create a new school
             yield schoolsImpl.createSchools("Zola Business High", "Bhongweni");
             school = yield schoolsImpl.getSchools();
-            const linkedLearner = yield learnersImpl.linkLearnerToNewSchool(learners[0].id, school[0].id);
+            const linkedLearner = yield learnersImpl.linkLearnerToNewSchool(learners[0].id, school[1].id);
             assert_1.default.equal(true, linkedLearner);
             // Test for the previous school
             results = yield learnersImpl.linkLearnerToSchool(learners[0].id, school[0].id);

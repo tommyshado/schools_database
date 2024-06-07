@@ -196,8 +196,7 @@ describe("Schools Database", function () {
             // create a new school
             await schoolsImpl.createSchools("Zola Business High", "Bhongweni");
             school = await schoolsImpl.getSchools();
-            const linkedLearner = await learnersImpl.linkLearnerToNewSchool(learners[0].id as number, school[0].id as number);
-
+            const linkedLearner = await learnersImpl.linkLearnerToNewSchool(learners[0].id as number, school[1].id as number);
             assert.equal(true, linkedLearner);
             // Test for the previous school
             results = await learnersImpl.linkLearnerToSchool(learners[0].id as number, school[0].id as number);
