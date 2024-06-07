@@ -1,8 +1,11 @@
 # Schools Database Project
+[![Node.js CI](https://github.com/tommyshado/schools_database/actions/workflows/node.js.yml/badge.svg)](https://github.com/tommyshado/schools_database/actions/workflows/node.js.yml)
+
+## Overview
 
 This project is a database management system designed for schools. It aims to manage and organize data related to schools, teachers, learners, subjects, and grades. The system is built using SQL scripts for various operations, serving as a backend for a school management application or a similar educational platform.
 
-## Overview
+## Directory Structure
 
 The project is organized into two main directories:
 
@@ -52,6 +55,68 @@ The project is organized into two main directories:
 ## Getting Started
 
 To get started with this project, clone the repository and set up your SQL environment. You can then execute the SQL scripts in the `functions/` and `sql/` directories to set up the database and its functions.
+
+## Continuous Integration with GitHub Actions
+
+The Schools Database Project leverages GitHub Actions for continuous integration, automating the execution of SQL scripts and running tests against a PostgreSQL database. This ensures consistency and reliability across development environments.
+
+### GitHub Actions Workflow
+
+The project's CI pipeline is configured in `.github/workflows/node.js.yml`. It automates the following:
+
+1. **Service Setup**: Configures a PostgreSQL service with predefined credentials and database name.
+2. **Dependency Installation**: Installs Node.js dependencies required for the project.
+3. **Database Preparation**: Executes SQL scripts to set up the database schema and seed initial data.
+4. **Testing**: Runs the test suite against the prepared PostgreSQL instance.
+
+### Workflow Trigger
+
+The workflow activates on pushes and pull requests to the master branch, providing immediate feedback on the impact of changes.
+
+### How to Use the Workflow
+
+To use the GitHub Actions workflow, follow these steps:
+
+1. **Ensure PostgreSQL Service Configuration**: The workflow sets up a PostgreSQL service container with the following environment variables:
+    ```yaml
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: codex-coder
+          POSTGRES_PASSWORD: codex123
+          POSTGRES_DB: schools
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    ```
+
+2. **Execute SQL Scripts**: Before running tests, the workflow executes SQL scripts to prepare the database. This involves truncating tables and inserting initial data as defined in `./sql/` and `./functions/`.
+    ```yaml
+    - name: Create PostgreSQL tables
+      run: |
+        chmod +x ./utils/run_sql_scripts.sh
+        ./utils/run_sql_scripts.sh
+    ```
+
+    Ensure the `run_sql_scripts.sh` utility script is correctly set up to execute SQL scripts found in the `sql/` directory, including `insert_scripts.sql` for initializing the database schema and creating records.
+
+3. **Run Tests**: With the database prepared, the workflow proceeds to run tests using the `npm test` command, ensuring that the application behaves as expected with the database in a known state.
+    ```yaml
+    - name: Run tests with PostgreSQL
+      env:
+        DB_URL: postgresql://codex-coder:codex123@localhost:5432/schools
+      run: npm test
+    ```
+
+### Utilization
+
+- **Automation**: Automates database setup and testing, enhancing development efficiency and reliability.
+- **Visibility**: Access workflow runs via the GitHub repository's "Actions" tab for insights into execution logs and outcomes.
 
 ## Contributing
 

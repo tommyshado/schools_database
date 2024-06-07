@@ -12,7 +12,6 @@ teacher_count int;
 
 begin
 
-    -- check if the_teacher_id & the_subject_id are found once in teacher & subject databases
     select into subject_count count(*) from subject where id = the_subject_id;
     select into teacher_count count(*) from teacher where id = the_teacher_id;
 
