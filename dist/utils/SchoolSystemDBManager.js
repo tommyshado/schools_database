@@ -1,0 +1,22 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.schoolSystem = exports.gradesImpl = exports.learnersImpl = exports.teachersImpl = exports.schoolsImpl = void 0;
+const SchoolsImpl_1 = __importDefault(require("../SchoolsImpl"));
+const TeacherImpl_1 = __importDefault(require("../TeacherImpl"));
+const LearnersImpl_1 = __importDefault(require("../LearnersImpl"));
+const GradesImpl_1 = __importDefault(require("../GradesImpl"));
+const SchoolSystem_1 = __importDefault(require("../SchoolSystem"));
+const Pool_1 = __importDefault(require("../model/Pool"));
+const schoolsImpl = new SchoolsImpl_1.default(Pool_1.default);
+exports.schoolsImpl = schoolsImpl;
+const teachersImpl = new TeacherImpl_1.default(Pool_1.default);
+exports.teachersImpl = teachersImpl;
+const learnersImpl = new LearnersImpl_1.default(Pool_1.default);
+exports.learnersImpl = learnersImpl;
+const gradesImpl = new GradesImpl_1.default(Pool_1.default);
+exports.gradesImpl = gradesImpl;
+const schoolSystem = new SchoolSystem_1.default(schoolsImpl, teachersImpl, learnersImpl, gradesImpl);
+exports.schoolSystem = schoolSystem;

@@ -1,16 +1,12 @@
 import assert from 'assert';
-import SchoolsImpl from '../SchoolsImpl';
 import pool from '../model/Pool';
-import TeacherImpl from '../TeacherImpl';
-import SchoolSystem from '../SchoolSystem';
-import GradesImpl from '../GradesImpl';
-import LearnersImpl from '../LearnersImpl';
-
-const schoolsImpl = new SchoolsImpl(pool);
-const teachersImpl = new TeacherImpl(pool);
-const learnersImpl = new LearnersImpl(pool);
-const gradesImpl = new GradesImpl(pool);
-const schoolSystem = new SchoolSystem(schoolsImpl, teachersImpl, learnersImpl, gradesImpl);
+import { 
+    schoolSystem, 
+    teachersImpl,
+    schoolsImpl, 
+    gradesImpl, 
+    learnersImpl
+} from '../utils/SchoolSystemDBManager'
 
 describe("Schools Database", function () {
     this.timeout(2000);
