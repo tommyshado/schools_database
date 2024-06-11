@@ -4,7 +4,8 @@
   "description": "This project is a database management system designed for schools. It aims to manage and organize data related to schools, teachers, learners, subjects, and grades. The system is built using SQL scripts for various operations, serving as a backend for a school management application or a similar educational platform.",
   "main": "dist/Server.js",
   "scripts": {
-    "test": "ts-mocha test/*.ts"
+    "test": "ts-mocha test/*.ts",
+    "start": "node ./dist/Server.js"
   },
   "keywords": [],
   "author": "",
@@ -19,7 +20,13 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "@types/body-parser": "^1.19.5",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
+    "express": "^4.19.2",
     "pg": "^8.11.5",
     "pg-promise": "^11.7.8"
   }

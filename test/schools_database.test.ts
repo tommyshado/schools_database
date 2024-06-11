@@ -1,16 +1,12 @@
 import assert from 'assert';
-import SchoolsImpl from '../SchoolsImpl';
 import pool from '../model/Pool';
-import TeacherImpl from '../TeacherImpl';
-import SchoolSystem from '../SchoolSystem';
-import GradesImpl from '../GradesImpl';
-import LearnersImpl from '../LearnersImpl';
-
-const schoolsImpl = new SchoolsImpl(pool);
-const teachersImpl = new TeacherImpl(pool);
-const learnersImpl = new LearnersImpl(pool);
-const gradesImpl = new GradesImpl(pool);
-const schoolSystem = new SchoolSystem(schoolsImpl, teachersImpl, learnersImpl, gradesImpl);
+import { 
+    schoolSystem, 
+    teachersImpl,
+    schoolsImpl, 
+    gradesImpl, 
+    learnersImpl
+} from '../utils/SchoolSystemDBManager'
 
 describe("Schools Database", function () {
     this.timeout(2000);
@@ -197,8 +193,8 @@ describe("Schools Database", function () {
             await schoolsImpl.createSchools("Zola Business High", "Bhongweni");
             school = await schoolsImpl.getSchools();
             const linkedLearner = await learnersImpl.linkLearnerToNewSchool(learners[0].id as number, school[1].id as number);
-
             assert.equal(true, linkedLearner);
+
             // Test for the previous school
             results = await learnersImpl.linkLearnerToSchool(learners[0].id as number, school[0].id as number);
             assert.equal(false, results);
