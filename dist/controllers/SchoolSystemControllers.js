@@ -28,7 +28,10 @@ class SchoolSystemControllers {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { name, region } = req.body;
-                if (typeof name === "string" && typeof region === "string") {
+                if (typeof name === "string" &&
+                    name &&
+                    typeof region === "string" &&
+                    region) {
                     const results = yield this.schoolSystem.createSchools(name, region);
                     if (results)
                         res.status(201).json({ message: "success" });
@@ -122,9 +125,7 @@ class SchoolSystemControllers {
                     if (results)
                         res.status(201).json({ message: "success" });
                     else
-                        res
-                            .status(404)
-                            .json({
+                        res.status(404).json({
                             message: `Values: ${teacherId} teacher id & ${schoolId} school id not found.`,
                         });
                 }
@@ -205,9 +206,7 @@ class SchoolSystemControllers {
                     if (results)
                         res.status(201).json({ message: "success" });
                     else
-                        res
-                            .status(404)
-                            .json({
+                        res.status(404).json({
                             message: `Values: ${learnerId} teacher id & ${schoolId} school id not found.`,
                         });
                 }
@@ -236,9 +235,7 @@ class SchoolSystemControllers {
                     if (results)
                         res.status(201).json({ message: "success" });
                     else
-                        res
-                            .status(404)
-                            .json({
+                        res.status(404).json({
                             message: `Values: ${learnerId} teacher id & ${schoolId} school id not found.`,
                         });
                 }

@@ -31,7 +31,12 @@ export default class SchoolSystemControllers {
     async createSchool(req: Request, res: Response): Promise<void> {
         try {
             const { name, region } = req.body as RequestBody;
-            if (typeof name === "string" && typeof region === "string") {
+            if (
+                typeof name === "string" &&
+                name &&
+                typeof region === "string" &&
+                region
+            ) {
                 const results = await this.schoolSystem.createSchools(name, region);
                 if (results) res.status(201).json({ message: "success" });
                 else res.status(409).json({ message: `${name} already exist.` });
@@ -120,11 +125,9 @@ export default class SchoolSystemControllers {
                 );
                 if (results) res.status(201).json({ message: "success" });
                 else
-                    res
-                        .status(404)
-                        .json({
-                            message: `Values: ${teacherId} teacher id & ${schoolId} school id not found.`,
-                        });
+                    res.status(404).json({
+                        message: `Values: ${teacherId} teacher id & ${schoolId} school id not found.`,
+                    });
             } else {
                 res
                     .status(400)
@@ -202,11 +205,9 @@ export default class SchoolSystemControllers {
                 );
                 if (results) res.status(201).json({ message: "success" });
                 else
-                    res
-                        .status(404)
-                        .json({
-                            message: `Values: ${learnerId} teacher id & ${schoolId} school id not found.`,
-                        });
+                    res.status(404).json({
+                        message: `Values: ${learnerId} teacher id & ${schoolId} school id not found.`,
+                    });
             } else {
                 res
                     .status(400)
@@ -234,11 +235,9 @@ export default class SchoolSystemControllers {
                 );
                 if (results) res.status(201).json({ message: "success" });
                 else
-                    res
-                        .status(404)
-                        .json({
-                            message: `Values: ${learnerId} teacher id & ${schoolId} school id not found.`,
-                        });
+                    res.status(404).json({
+                        message: `Values: ${learnerId} teacher id & ${schoolId} school id not found.`,
+                    });
             } else {
                 res
                     .status(400)
