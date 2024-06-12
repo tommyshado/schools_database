@@ -4,7 +4,7 @@ create type teacher_type as (
     last_name text,
     email text
 );
-create or replace function findTeachers ()
+create or replace function find_teachers ()
     returns table (
         teacher_row teacher_type
     ) as

@@ -1,5 +1,5 @@
 import { ISchools } from "./ISchools";
-import DbSchools from "./SchoolsImpl";
+import SchoolsImpl from "./SchoolsImpl";
 import { ISchoolsType } from "./ISchools";
 import { ITeachers } from "./ITeachers";
 import TeacherImpl from "./TeacherImpl";
@@ -11,7 +11,7 @@ import GradesImpl from "./GradesImpl";
 
 export default class SchoolSystem implements ISchools, ITeachers, ILearners, IGrades {
     constructor(
-        private schools: DbSchools,
+        private schools: SchoolsImpl,
         private teachers: TeacherImpl,
         private learners: LearnersImpl,
         private grades: GradesImpl

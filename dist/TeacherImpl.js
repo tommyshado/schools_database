@@ -26,7 +26,10 @@ class TeacherImpl {
                     person.email
                 ];
                 const results = yield this.db.oneOrNone(query, data);
-                return results.add_teacher;
+                if (results.add_teacher)
+                    return results.add_teacher;
+                else
+                    return false;
             }
             catch (error) {
                 console.error("An error occurred while creating a teacher", error);
@@ -39,7 +42,7 @@ class TeacherImpl {
     getTeachers() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const query = "select * from findTeachers()";
+                const query = "select * from find_teachers()";
                 const results = yield this.db.manyOrNone(query);
                 return results;
             }
