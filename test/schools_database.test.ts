@@ -296,41 +296,41 @@ describe("Schools Database", function () {
             assert.equal(3, schools.length);
         });
         it("should link teachers to a school using SchoolSystem Class", async () => {
-            await teachersImpl.createATeacher({
+            await schoolSystem.createATeacher({
                 firstName: "Sive",
                 lastName: "Philani",
                 email: "sive@gmail.com"
             });
-            await teachersImpl.createATeacher({
+            await schoolSystem.createATeacher({
                 firstName: "Nathi",
                 lastName: "Philani",
                 email: "nathi@gmail.com"
             });
-            await schoolsImpl.createSchools("Harry Gwala", "Site B");
+            await schoolSystem.createSchools("Harry Gwala", "Site B");
 
-            let schools = await schoolsImpl.getSchools();
-            let teachers = await teachersImpl.getTeachers();
+            let schools = await schoolSystem.getSchools();
+            let teachers = await schoolSystem.getTeachers();
 
             assert.equal(2, teachers.length);
             assert.equal(1, schools.length);
 
-            let results = await teachersImpl.linkTeacherToSchool(teachers[0].id as number, schools[0].id as number);
+            let results = await schoolSystem.linkTeacherToSchool(teachers[0].id as number, schools[0].id as number);
             assert.equal(true, results);
 
-            await teachersImpl.createATeacher({
+            await schoolSystem.createATeacher({
                 firstName: "Gcogco",
                 lastName: "Tim",
                 email: "tim@gmail.com"
             });
-            await schoolsImpl.createSchools("Bellevue", "Blue Downs");
+            await schoolSystem.createSchools("Bellevue", "Blue Downs");
 
-            teachers = await teachersImpl.getTeachers();
-            schools = await schoolsImpl.getSchools();
+            teachers = await schoolSystem.getTeachers();
+            schools = await schoolSystem.getSchools();
 
             assert.equal(3, teachers.length);
             assert.equal(2, schools.length);
 
-            results = await teachersImpl.linkTeacherToSchool(teachers[2].id as number, schools[1].id as number);
+            results = await schoolSystem.linkTeacherToSchool(teachers[2].id as number, schools[1].id as number);
             assert.equal(true, results);
         });
     });

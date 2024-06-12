@@ -256,34 +256,34 @@ describe("Schools Database", function () {
             assert_1.default.equal(3, schools.length);
         }));
         it("should link teachers to a school using SchoolSystem Class", () => __awaiter(this, void 0, void 0, function* () {
-            yield SchoolSystemDBManager_1.teachersImpl.createATeacher({
+            yield SchoolSystemDBManager_1.schoolSystem.createATeacher({
                 firstName: "Sive",
                 lastName: "Philani",
                 email: "sive@gmail.com"
             });
-            yield SchoolSystemDBManager_1.teachersImpl.createATeacher({
+            yield SchoolSystemDBManager_1.schoolSystem.createATeacher({
                 firstName: "Nathi",
                 lastName: "Philani",
                 email: "nathi@gmail.com"
             });
-            yield SchoolSystemDBManager_1.schoolsImpl.createSchools("Harry Gwala", "Site B");
-            let schools = yield SchoolSystemDBManager_1.schoolsImpl.getSchools();
-            let teachers = yield SchoolSystemDBManager_1.teachersImpl.getTeachers();
+            yield SchoolSystemDBManager_1.schoolSystem.createSchools("Harry Gwala", "Site B");
+            let schools = yield SchoolSystemDBManager_1.schoolSystem.getSchools();
+            let teachers = yield SchoolSystemDBManager_1.schoolSystem.getTeachers();
             assert_1.default.equal(2, teachers.length);
             assert_1.default.equal(1, schools.length);
-            let results = yield SchoolSystemDBManager_1.teachersImpl.linkTeacherToSchool(teachers[0].id, schools[0].id);
+            let results = yield SchoolSystemDBManager_1.schoolSystem.linkTeacherToSchool(teachers[0].id, schools[0].id);
             assert_1.default.equal(true, results);
-            yield SchoolSystemDBManager_1.teachersImpl.createATeacher({
+            yield SchoolSystemDBManager_1.schoolSystem.createATeacher({
                 firstName: "Gcogco",
                 lastName: "Tim",
                 email: "tim@gmail.com"
             });
-            yield SchoolSystemDBManager_1.schoolsImpl.createSchools("Bellevue", "Blue Downs");
-            teachers = yield SchoolSystemDBManager_1.teachersImpl.getTeachers();
-            schools = yield SchoolSystemDBManager_1.schoolsImpl.getSchools();
+            yield SchoolSystemDBManager_1.schoolSystem.createSchools("Bellevue", "Blue Downs");
+            teachers = yield SchoolSystemDBManager_1.schoolSystem.getTeachers();
+            schools = yield SchoolSystemDBManager_1.schoolSystem.getSchools();
             assert_1.default.equal(3, teachers.length);
             assert_1.default.equal(2, schools.length);
-            results = yield SchoolSystemDBManager_1.teachersImpl.linkTeacherToSchool(teachers[2].id, schools[1].id);
+            results = yield SchoolSystemDBManager_1.schoolSystem.linkTeacherToSchool(teachers[2].id, schools[1].id);
             assert_1.default.equal(true, results);
         }));
     });

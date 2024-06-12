@@ -15,7 +15,9 @@ export default class TeacherImpl implements ITeachers {
                 person.email
             ];
             const results = await this.db.oneOrNone(query, data);
-            return results.add_teacher;
+            if (results.add_teacher) return results.add_teacher;
+            else return false;
+
         } catch (error) {
             console.error("An error occurred while creating a teacher", error);
             throw error;
@@ -23,7 +25,7 @@ export default class TeacherImpl implements ITeachers {
     };
     async getTeachers(): Promise<IPerson[]> {
         try {
-            const query = "select * from findTeachers()";
+            const query = "select * from find_teachers()";
             const results = await this.db.manyOrNone(query);
             return results;
         } catch (error) {

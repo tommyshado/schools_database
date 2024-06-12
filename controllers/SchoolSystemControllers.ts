@@ -7,6 +7,10 @@ interface RequestBody {
     firstName?: string;
     lastName?: string;
     email?: string;
+    teacherId?: number;
+    schoolId?: number;
+    learnerId?: number;
+    gradeId?: number;
 }
 
 export default class SchoolSystemControllers {
@@ -14,20 +18,28 @@ export default class SchoolSystemControllers {
         this.createSchool = this.createSchool.bind(this);
         this.getSchools = this.getSchools.bind(this);
         this.createTeacher = this.createTeacher.bind(this);
+        this.getTeachers = this.getTeachers.bind(this);
+        this.addTeacherToASchool = this.addTeacherToASchool.bind(this);
+        this.createLearner = this.createLearner.bind(this);
+        this.getLearners = this.getLearners.bind(this);
+        this.addLearnerToASchool = this.addLearnerToASchool.bind(this);
+        this.changeLearnerSchool = this.changeLearnerSchool.bind(this);
+        this.currentLearnerSchool = this.currentLearnerSchool.bind(this);
     }
 
+    // *************************** Schools Controllers **************************** //
     async createSchool(req: Request, res: Response): Promise<void> {
         try {
             const { name, region } = req.body as RequestBody;
             if (typeof name === "string" && typeof region === "string") {
-                await this.schoolSystem.createSchools(name, region);
-                res.status(201).json({ message: "success" });
-                return;
+                const results = await this.schoolSystem.createSchools(name, region);
+                if (results) res.status(201).json({ message: "success" });
+                else res.status(409).json({ message: `${name} already exist.` });
+            } else {
+                res
+                    .status(400)
+                    .send("Invalid input: 'name' and 'region' must be strings");
             }
-            res
-                .status(400)
-                .send("Invalid input: 'name' and 'region' must be strings");
-            return;
         } catch (error) {
             res
                 .status(400)
@@ -39,7 +51,6 @@ export default class SchoolSystemControllers {
         try {
             const schools = await this.schoolSystem.getSchools();
             res.status(200).json(schools);
-            return;
         } catch (error) {
             res
                 .status(500)
@@ -47,27 +58,219 @@ export default class SchoolSystemControllers {
         }
     }
 
+    // ************************* Teachers Controllers **************************** //
     async createTeacher(req: Request, res: Response): Promise<void> {
         try {
             const { firstName, lastName, email } = req.body as RequestBody;
             if (
                 typeof firstName === "string" &&
+                firstName &&
                 typeof lastName === "string" &&
-                typeof email === "string"
+                lastName &&
+                typeof email === "string" &&
+                email
             ) {
-                await this.schoolSystem.createATeacher({ firstName, lastName, email });
-                return;
+                const results = await this.schoolSystem.createATeacher({
+                    firstName,
+                    lastName,
+                    email,
+                });
+                if (results) res.status(201).json({ message: "success" });
+                else
+                    res
+                        .status(409)
+                        .json({ message: `Teacher with ${email} email already exist.` });
+            } else {
+                res
+                    .status(400)
+                    .send(
+                        "Invalid input: 'firstName', 'lastName' and 'email' must be strings & length must be greater than 0"
+                    );
             }
-            res
-                .status(400)
-                .send(
-                    "Invalid input: 'firstName', 'lastName' and 'email' must be strings"
-                );
-            return;
         } catch (error) {
             res
                 .status(400)
                 .json({ message: "An error occurred while creating a teacher." });
+        }
+    }
+
+    async getTeachers(req: Request, res: Response): Promise<void> {
+        try {
+            const teachers = await this.schoolSystem.getTeachers();
+            res.status(200).json(teachers);
+        } catch (error) {
+            res
+                .status(500)
+                .json({ message: "An error occurred while fetching the teachers." });
+        }
+    }
+
+    async addTeacherToASchool(req: Request, res: Response): Promise<void> {
+        try {
+            const { teacherId, schoolId } = req.body as RequestBody;
+            if (
+                typeof teacherId === "number" &&
+                teacherId &&
+                typeof schoolId === "number" &&
+                schoolId
+            ) {
+                const results = await this.schoolSystem.linkTeacherToSchool(
+                    teacherId,
+                    schoolId
+                );
+                if (results) res.status(201).json({ message: "success" });
+                else
+                    res
+                        .status(404)
+                        .json({
+                            message: `Values: ${teacherId} teacher id & ${schoolId} school id not found.`,
+                        });
+            } else {
+                res
+                    .status(400)
+                    .send("Invalid input: 'teacherId' and 'schoolId' must be numbers");
+            }
+        } catch (error) {
+            res.status(400).json({
+                message: "An error occurred while creating a teacher for a school.",
+            });
+        }
+    }
+
+    // **************************** Learners Controllers ****************************** //
+    async createLearner(req: Request, res: Response): Promise<void> {
+        try {
+            const { firstName, lastName, email, gradeId } = req.body as RequestBody;
+            if (
+                typeof firstName === "string" &&
+                firstName &&
+                typeof lastName === "string" &&
+                lastName &&
+                typeof email === "string" &&
+                email &&
+                typeof gradeId === "number" &&
+                gradeId
+            ) {
+                const results = await this.schoolSystem.createLearner({
+                    firstName,
+                    lastName,
+                    email,
+                    gradeId,
+                });
+                if (results) res.status(201).json({ message: "success" });
+                else
+                    res
+                        .status(409)
+                        .json({ message: `Learner with ${email} already exist.` });
+            } else {
+                res
+                    .status(400)
+                    .send(
+                        "Invalid input: 'firstName', 'lastName', 'email' must be strings & 'gradeId' must be number"
+                    );
+            }
+        } catch (error) {
+            res
+                .status(400)
+                .json({ message: "An error occurred while creating a learner." });
+        }
+    }
+
+    async getLearners(req: Request, res: Response): Promise<void> {
+        try {
+            const learners = await this.schoolSystem.getLearners();
+            res.status(200).json(learners);
+        } catch (error) {
+            res
+                .status(500)
+                .json({ message: "An error occurred while fetching the learners." });
+        }
+    }
+
+    async addLearnerToASchool(req: Request, res: Response): Promise<void> {
+        try {
+            const { learnerId, schoolId } = req.body as RequestBody;
+            if (
+                typeof learnerId === "number" &&
+                learnerId &&
+                typeof schoolId === "number" &&
+                schoolId
+            ) {
+                const results = await this.schoolSystem.linkTeacherToSchool(
+                    learnerId,
+                    schoolId
+                );
+                if (results) res.status(201).json({ message: "success" });
+                else
+                    res
+                        .status(404)
+                        .json({
+                            message: `Values: ${learnerId} teacher id & ${schoolId} school id not found.`,
+                        });
+            } else {
+                res
+                    .status(400)
+                    .send("Invalid input: 'learnerId' and 'schoolId' must be numbers");
+            }
+        } catch (error) {
+            res.status(400).json({
+                message: "An error occurred while creating a learner school.",
+            });
+        }
+    }
+
+    async changeLearnerSchool(req: Request, res: Response): Promise<void> {
+        try {
+            const { learnerId, schoolId } = req.body as RequestBody;
+            if (
+                typeof learnerId === "number" &&
+                learnerId &&
+                typeof schoolId === "number" &&
+                schoolId
+            ) {
+                const results = await this.schoolSystem.linkLearnerToNewSchool(
+                    learnerId,
+                    schoolId
+                );
+                if (results) res.status(201).json({ message: "success" });
+                else
+                    res
+                        .status(404)
+                        .json({
+                            message: `Values: ${learnerId} teacher id & ${schoolId} school id not found.`,
+                        });
+            } else {
+                res
+                    .status(400)
+                    .send("Invalid input: 'learnerId' and 'schoolId' must be numbers");
+            }
+        } catch (error) {
+            res.status(400).json({
+                message: "An error occurred while creating a learner school.",
+            });
+        }
+    }
+
+    async currentLearnerSchool(req: Request, res: Response): Promise<void> {
+        try {
+            const learnerId = parseInt(req.params.learnerId);
+            if (isNaN(learnerId)) {
+                res.status(400).send("Invalid input: 'learnerId' must be a number");
+            } else {
+                const currentSchool = await this.schoolSystem.getLearnersCurrentSchool(
+                    learnerId
+                );
+                if (currentSchool.id) res.status(200).json(currentSchool);
+                else
+                    res
+                        .status(404)
+                        .json({ message: `Learner with: ${learnerId} id not found.` });
+            }
+        } catch (error) {
+            res.status(500).json({
+                message:
+                    "An error occurred while fetching the learners current school.",
+            });
         }
     }
 }
