@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const SchoolSystemControllers_1 = __importDefault(require("../controllers/SchoolSystemControllers"));
 const SchoolSystemDBManager_1 = require("../utils/SchoolSystemDBManager");
 const router = express_1.default.Router();
-const SchoolSystem = new SchoolSystemControllers_1.default(SchoolSystemDBManager_1.schoolSystem);
+const SchoolSystem = new SchoolSystemControllers_1.default(SchoolSystemDBManager_1.schoolApp);
 // ************************* Schools Routes ********************************* //
 router.post("/create-school", SchoolSystem.createSchool);
 router.get("/get-schools", SchoolSystem.getSchools);
