@@ -1,9 +1,9 @@
 import express from "express";
 import SchoolSystemControllers from "../controllers/SchoolSystemControllers";
-import { schoolSystem } from "../utils/SchoolSystemDBManager";
+import { schoolApp } from "../utils/SchoolSystemDBManager";
 
 const router = express.Router();
-const SchoolSystem = new SchoolSystemControllers(schoolSystem);
+const SchoolSystem = new SchoolSystemControllers(schoolApp);
 
 // ************************* Schools Routes ********************************* //
 router.post("/create-school", SchoolSystem.createSchool);
