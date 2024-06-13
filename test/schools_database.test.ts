@@ -1,5 +1,5 @@
 import assert from 'assert';
-import pool from '../model/Pool';
+import { dbTest } from '../model/Pool';
 import { 
     schoolSystem, 
     teachersImpl,
@@ -11,14 +11,14 @@ import {
 describe("Schools Database", function () {
     this.timeout(2000);
     beforeEach(async () => {
-        await pool.query("truncate table school restart identity cascade");
-        await pool.query("truncate table learner_school restart identity cascade");
-        await pool.query("truncate table teacher_school restart identity cascade");
-        await pool.query("truncate table teacher restart identity cascade");
-        await pool.query("truncate table learner restart identity cascade");
-        await pool.query("truncate table grade restart identity cascade");
-        await pool.query("truncate table subject restart identity cascade");
-        await pool.query("truncate table teacher_subject restart identity cascade");
+        await dbTest.query("truncate table school restart identity cascade");
+        await dbTest.query("truncate table learner_school restart identity cascade");
+        await dbTest.query("truncate table teacher_school restart identity cascade");
+        await dbTest.query("truncate table teacher restart identity cascade");
+        await dbTest.query("truncate table learner restart identity cascade");
+        await dbTest.query("truncate table grade restart identity cascade");
+        await dbTest.query("truncate table subject restart identity cascade");
+        await dbTest.query("truncate table teacher_subject restart identity cascade");
     });
 
     describe("DbSchools Database", () => {
@@ -335,7 +335,18 @@ describe("Schools Database", function () {
         });
     });
 
+    afterEach(async () => {
+        await dbTest.query("truncate table school restart identity cascade");
+        await dbTest.query("truncate table learner_school restart identity cascade");
+        await dbTest.query("truncate table teacher_school restart identity cascade");
+        await dbTest.query("truncate table teacher restart identity cascade");
+        await dbTest.query("truncate table learner restart identity cascade");
+        await dbTest.query("truncate table grade restart identity cascade");
+        await dbTest.query("truncate table subject restart identity cascade");
+        await dbTest.query("truncate table teacher_subject restart identity cascade");
+    });
+
     after(() => {
-        pool.$pool.end;
+        dbTest.$pool.end;
     });
 });

@@ -3,18 +3,37 @@ import TeacherImpl from "../TeacherImpl";
 import LearnersImpl from "../LearnersImpl";
 import GradesImpl from "../GradesImpl";
 import SchoolSystem from "../SchoolSystem";
-import pool from "../model/Pool";
+import { dbTest, dbApp } from "../model/Pool";
 
-const schoolsImpl = new SchoolsImpl(pool);
-const teachersImpl = new TeacherImpl(pool);
-const learnersImpl = new LearnersImpl(pool);
-const gradesImpl = new GradesImpl(pool);
-const schoolSystem = new SchoolSystem(schoolsImpl, teachersImpl, learnersImpl, gradesImpl);
+// ********************************* Implementations for Tests ********************************************** //
+const schoolsImpl = new SchoolsImpl(dbTest);
+const teachersImpl = new TeacherImpl(dbTest);
+const learnersImpl = new LearnersImpl(dbTest);
+const gradesImpl = new GradesImpl(dbTest);
+const schoolSystem = new SchoolSystem(
+    schoolsImpl,
+    teachersImpl,
+    learnersImpl,
+    gradesImpl
+);
+
+// ********************************* Implementations for App *********************************************** //
+const SchoolsImplApp = new SchoolsImpl(dbApp);
+const TeachersImplApp = new TeacherImpl(dbApp);
+const LearnersImplApp = new LearnersImpl(dbApp);
+const GradesImplApp = new GradesImpl(dbApp);
+const schoolApp = new SchoolSystem(
+    SchoolsImplApp,
+    TeachersImplApp,
+    LearnersImplApp,
+    GradesImplApp
+);
 
 export {
     schoolsImpl,
     teachersImpl,
     learnersImpl,
     gradesImpl,
-    schoolSystem
+    schoolSystem,
+    schoolApp,
 };
