@@ -13,19 +13,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const assert_1 = __importDefault(require("assert"));
-const Pool_1 = __importDefault(require("../model/Pool"));
+const Pool_1 = require("../model/Pool");
 const SchoolSystemDBManager_1 = require("../utils/SchoolSystemDBManager");
 describe("Schools Database", function () {
     this.timeout(2000);
     beforeEach(() => __awaiter(this, void 0, void 0, function* () {
-        yield Pool_1.default.query("truncate table school restart identity cascade");
-        yield Pool_1.default.query("truncate table learner_school restart identity cascade");
-        yield Pool_1.default.query("truncate table teacher_school restart identity cascade");
-        yield Pool_1.default.query("truncate table teacher restart identity cascade");
-        yield Pool_1.default.query("truncate table learner restart identity cascade");
-        yield Pool_1.default.query("truncate table grade restart identity cascade");
-        yield Pool_1.default.query("truncate table subject restart identity cascade");
-        yield Pool_1.default.query("truncate table teacher_subject restart identity cascade");
+        yield Pool_1.dbTest.query("truncate table school restart identity cascade");
+        yield Pool_1.dbTest.query("truncate table learner_school restart identity cascade");
+        yield Pool_1.dbTest.query("truncate table teacher_school restart identity cascade");
+        yield Pool_1.dbTest.query("truncate table teacher restart identity cascade");
+        yield Pool_1.dbTest.query("truncate table learner restart identity cascade");
+        yield Pool_1.dbTest.query("truncate table grade restart identity cascade");
+        yield Pool_1.dbTest.query("truncate table subject restart identity cascade");
+        yield Pool_1.dbTest.query("truncate table teacher_subject restart identity cascade");
     }));
     describe("DbSchools Database", () => {
         it("should create a school", () => __awaiter(this, void 0, void 0, function* () {
@@ -287,7 +287,17 @@ describe("Schools Database", function () {
             assert_1.default.equal(true, results);
         }));
     });
+    afterEach(() => __awaiter(this, void 0, void 0, function* () {
+        yield Pool_1.dbTest.query("truncate table school restart identity cascade");
+        yield Pool_1.dbTest.query("truncate table learner_school restart identity cascade");
+        yield Pool_1.dbTest.query("truncate table teacher_school restart identity cascade");
+        yield Pool_1.dbTest.query("truncate table teacher restart identity cascade");
+        yield Pool_1.dbTest.query("truncate table learner restart identity cascade");
+        yield Pool_1.dbTest.query("truncate table grade restart identity cascade");
+        yield Pool_1.dbTest.query("truncate table subject restart identity cascade");
+        yield Pool_1.dbTest.query("truncate table teacher_subject restart identity cascade");
+    }));
     after(() => {
-        Pool_1.default.$pool.end;
+        Pool_1.dbTest.$pool.end;
     });
 });
