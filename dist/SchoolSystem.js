@@ -53,6 +53,13 @@ class SchoolSystem {
         });
     }
     ;
+    linkTeacherToSubject(teacherId, subjectId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const results = yield this.teachers.linkTeacherToSubject(teacherId, subjectId);
+            return results;
+        });
+    }
+    ;
     // Learners functionalities
     createLearner(person) {
         return __awaiter(this, void 0, void 0, function* () {

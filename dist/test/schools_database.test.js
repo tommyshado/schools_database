@@ -50,13 +50,13 @@ describe("Schools Database", function () {
             const results = yield SchoolSystemDBManager_1.teachersImpl.createATeacher({
                 firstName: "Sbu",
                 lastName: "Tom",
-                email: "sbu@gmail.com"
+                email: "sbu@gmail.com",
             });
             assert_1.default.equal(true, results);
             const results__ = yield SchoolSystemDBManager_1.teachersImpl.createATeacher({
                 firstName: "Sbu",
                 lastName: "Tom",
-                email: "sbu@gmail.com"
+                email: "sbu@gmail.com",
             });
             assert_1.default.equal(false, results__);
         }));
@@ -64,14 +64,14 @@ describe("Schools Database", function () {
             yield SchoolSystemDBManager_1.teachersImpl.createATeacher({
                 firstName: "Ace",
                 lastName: "Tom",
-                email: "ace@gmail.com"
+                email: "ace@gmail.com",
             });
             let teachers = yield SchoolSystemDBManager_1.teachersImpl.getTeachers();
             assert_1.default.equal(1, teachers.length);
             yield SchoolSystemDBManager_1.teachersImpl.createATeacher({
                 firstName: "Sbu",
                 lastName: "Tom",
-                email: "sbu@gmail.com"
+                email: "sbu@gmail.com",
             });
             teachers = yield SchoolSystemDBManager_1.teachersImpl.getTeachers();
             assert_1.default.equal(2, teachers.length);
@@ -80,7 +80,7 @@ describe("Schools Database", function () {
             yield SchoolSystemDBManager_1.teachersImpl.createATeacher({
                 firstName: "Otha",
                 lastName: "Moya",
-                email: "moya@gmail.com"
+                email: "moya@gmail.com",
             });
             yield SchoolSystemDBManager_1.schoolsImpl.createSchools("Gugs High", "Gugulethu");
             const schools = yield SchoolSystemDBManager_1.schoolsImpl.getSchools();
@@ -92,7 +92,7 @@ describe("Schools Database", function () {
             yield SchoolSystemDBManager_1.teachersImpl.createATeacher({
                 firstName: "Nathi",
                 lastName: "Gcogco",
-                email: "nathi@gmail.com"
+                email: "nathi@gmail.com",
             });
             yield SchoolSystemDBManager_1.schoolsImpl.createSchools("Harry Gwala", "Site B");
             let schools = yield SchoolSystemDBManager_1.schoolsImpl.getSchools();
@@ -102,7 +102,7 @@ describe("Schools Database", function () {
             yield SchoolSystemDBManager_1.teachersImpl.createATeacher({
                 firstName: "Gcogco",
                 lastName: "Tim",
-                email: "tim@gmail.com"
+                email: "tim@gmail.com",
             });
             yield SchoolSystemDBManager_1.schoolsImpl.createSchools("Bellevue", "Blue Downs");
             schools = yield SchoolSystemDBManager_1.schoolsImpl.getSchools();
@@ -123,7 +123,7 @@ describe("Schools Database", function () {
                 firstName: "Mthunzi",
                 lastName: "Turing",
                 email: "mt@gmail",
-                gradeId: gradeData[0].id
+                gradeId: gradeData[0].id,
             });
             assert_1.default.equal(true, learner);
         }));
@@ -138,7 +138,7 @@ describe("Schools Database", function () {
                 firstName: "Mthunzi",
                 lastName: "Turing",
                 email: "mt@gmail",
-                gradeId: gradeData[0].id
+                gradeId: gradeData[0].id,
             });
             assert_1.default.equal(true, learner);
             const learners = yield SchoolSystemDBManager_1.learnersImpl.getLearners();
@@ -159,7 +159,7 @@ describe("Schools Database", function () {
                 firstName: "Othalive",
                 lastName: "Moya",
                 email: "ot@gmail.com",
-                gradeId: gradeData[0].id
+                gradeId: gradeData[0].id,
             });
             assert_1.default.equal(true, learner);
             const learners = yield SchoolSystemDBManager_1.learnersImpl.getLearners();
@@ -189,7 +189,7 @@ describe("Schools Database", function () {
                 firstName: "Landon",
                 lastName: "Tom",
                 email: "landa@gmail.com",
-                gradeId: gradeData[0].id
+                gradeId: gradeData[0].id,
             });
             assert_1.default.equal(true, learner);
             const learners = yield SchoolSystemDBManager_1.learnersImpl.getLearners();
@@ -208,7 +208,7 @@ describe("Schools Database", function () {
             results = yield SchoolSystemDBManager_1.learnersImpl.linkLearnerToSchool(learners[0].id, school[0].id);
             assert_1.default.equal(false, results);
             const learnersCurrentSchool = yield SchoolSystemDBManager_1.learnersImpl.getLearnersCurrentSchool(learners[0].id);
-            assert_1.default.deepEqual({ id: school[1].id, name: 'Zola Business High' }, learnersCurrentSchool);
+            assert_1.default.deepEqual({ id: school[1].id, name: "Zola Business High" }, learnersCurrentSchool);
         }));
         it("should find all the schools for a learner", () => __awaiter(this, void 0, void 0, function* () {
             // create learner grade
@@ -221,7 +221,7 @@ describe("Schools Database", function () {
                 firstName: "Ace",
                 lastName: "Tom",
                 email: "ace@gmail.com",
-                gradeId: gradeData[0].id
+                gradeId: gradeData[0].id,
             });
             assert_1.default.equal(true, learner);
             const learners = yield SchoolSystemDBManager_1.learnersImpl.getLearners();
@@ -259,12 +259,12 @@ describe("Schools Database", function () {
             yield SchoolSystemDBManager_1.schoolSystem.createATeacher({
                 firstName: "Sive",
                 lastName: "Philani",
-                email: "sive@gmail.com"
+                email: "sive@gmail.com",
             });
             yield SchoolSystemDBManager_1.schoolSystem.createATeacher({
                 firstName: "Nathi",
                 lastName: "Philani",
-                email: "nathi@gmail.com"
+                email: "nathi@gmail.com",
             });
             yield SchoolSystemDBManager_1.schoolSystem.createSchools("Harry Gwala", "Site B");
             let schools = yield SchoolSystemDBManager_1.schoolSystem.getSchools();
@@ -276,7 +276,7 @@ describe("Schools Database", function () {
             yield SchoolSystemDBManager_1.schoolSystem.createATeacher({
                 firstName: "Gcogco",
                 lastName: "Tim",
-                email: "tim@gmail.com"
+                email: "tim@gmail.com",
             });
             yield SchoolSystemDBManager_1.schoolSystem.createSchools("Bellevue", "Blue Downs");
             teachers = yield SchoolSystemDBManager_1.schoolSystem.getTeachers();
@@ -285,6 +285,63 @@ describe("Schools Database", function () {
             assert_1.default.equal(2, schools.length);
             results = yield SchoolSystemDBManager_1.schoolSystem.linkTeacherToSchool(teachers[2].id, schools[1].id);
             assert_1.default.equal(true, results);
+        }));
+        it("should create a learner using the SchoolSystem Class", () => __awaiter(this, void 0, void 0, function* () {
+            const grade = yield SchoolSystemDBManager_1.schoolSystem.createGrade("Grade-12");
+            const grades = yield SchoolSystemDBManager_1.schoolSystem.getGrades();
+            assert_1.default.equal(true, grade);
+            assert_1.default.equal("Grade-12", grades[0].name);
+            const results = yield SchoolSystemDBManager_1.schoolSystem.createLearner({
+                firstName: "Lindani",
+                lastName: "Mamadi",
+                email: "mamadi@gmail",
+                gradeId: grades[0].id,
+            });
+            assert_1.default.equal(true, results);
+        }));
+        it("should link a learner to a new school", () => __awaiter(this, void 0, void 0, function* () {
+            const grade = yield SchoolSystemDBManager_1.schoolSystem.createGrade("Grade-10");
+            const grades = yield SchoolSystemDBManager_1.schoolSystem.getGrades();
+            assert_1.default.equal(true, grade);
+            assert_1.default.equal("Grade-10", grades[0].name);
+            const learner = yield SchoolSystemDBManager_1.schoolSystem.createLearner({
+                firstName: "Tendani",
+                lastName: "Mamadi",
+                email: "tendani@gmail",
+                gradeId: grades[0].id,
+            });
+            assert_1.default.equal(true, learner);
+            const learners = yield SchoolSystemDBManager_1.learnersImpl.getLearners();
+            // create a school
+            yield SchoolSystemDBManager_1.schoolSystem.createSchools("Cape Town High", "Cape Town");
+            const school = yield SchoolSystemDBManager_1.schoolSystem.getSchools();
+            let results = yield SchoolSystemDBManager_1.schoolSystem.linkLearnerToSchool(learners[0].id, school[0].id);
+            assert_1.default.equal(true, results);
+        }));
+        it("should find the learner's current school", () => __awaiter(this, void 0, void 0, function* () {
+            const grade = yield SchoolSystemDBManager_1.schoolSystem.createGrade("Grade-10");
+            const grades = yield SchoolSystemDBManager_1.schoolSystem.getGrades();
+            assert_1.default.equal(true, grade);
+            assert_1.default.equal("Grade-10", grades[0].name);
+            const learner = yield SchoolSystemDBManager_1.schoolSystem.createLearner({
+                firstName: "Tendani",
+                lastName: "Mamadi",
+                email: "tendani@gmail",
+                gradeId: grades[0].id,
+            });
+            assert_1.default.equal(true, learner);
+            const learners = yield SchoolSystemDBManager_1.learnersImpl.getLearners();
+            // create a school
+            yield SchoolSystemDBManager_1.schoolSystem.createSchools("Zola High", "Cape Town");
+            const school = yield SchoolSystemDBManager_1.schoolSystem.getSchools();
+            let results = yield SchoolSystemDBManager_1.schoolSystem.linkLearnerToSchool(learners[0].id, school[0].id);
+            assert_1.default.equal(true, results);
+            // Find the current school
+            const currentSchool = yield SchoolSystemDBManager_1.schoolSystem.getLearnersCurrentSchool(learners[0].id);
+            assert_1.default.deepEqual({
+                id: 1,
+                name: "Zola High",
+            }, currentSchool);
         }));
     });
     afterEach(() => __awaiter(this, void 0, void 0, function* () {

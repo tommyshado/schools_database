@@ -71,5 +71,22 @@ class TeacherImpl {
         });
     }
     ;
+    linkTeacherToSubject(teacherId, subjectId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (!(teacherId && subjectId))
+                    return false;
+                const query = "select * from link_teacher_to_subject($1, $2)";
+                const results = yield this.db.oneOrNone(query, [teacherId, subjectId]);
+                return results.link_teacher_to_subject;
+            }
+            catch (error) {
+                console.error("An error occurred while linking a teacher to a subject.", error);
+                throw error;
+            }
+            ;
+        });
+    }
+    ;
 }
 exports.default = TeacherImpl;

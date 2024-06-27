@@ -44,4 +44,15 @@ export default class TeacherImpl implements ITeachers {
             throw error;
         };
     };
+    async linkTeacherToSubject(teacherId: number, subjectId: number): Promise<boolean> {
+        try {
+            if (!(teacherId && subjectId)) return false;
+            const query = "select * from link_teacher_to_subject($1, $2)";
+            const results = await this.db.oneOrNone(query, [teacherId, subjectId]);
+            return results.link_teacher_to_subject;
+        } catch (error) {
+            console.error("An error occurred while linking a teacher to a subject.", error);
+            throw error;
+        };
+    };
 }

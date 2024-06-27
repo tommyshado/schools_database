@@ -47,6 +47,14 @@ export default class SchoolSystem implements ISchools, ITeachers, ILearners, IGr
         return results;
     };
 
+    async linkTeacherToSubject(teacherId: number, subjectId: number): Promise<boolean> {
+        const results = await this.teachers.linkTeacherToSubject(
+            teacherId,
+            subjectId
+        );
+        return results;
+    };
+
     // Learners functionalities
     async createLearner(person: IPerson): Promise<boolean> {
         const results = await this.learners.createLearner(person);

@@ -11,6 +11,8 @@ interface RequestBody {
     schoolId?: number;
     learnerId?: number;
     gradeId?: number;
+    grade?: string;
+    subjectId?: number;
 }
 
 export default class SchoolSystemControllers {
@@ -25,6 +27,9 @@ export default class SchoolSystemControllers {
         this.addLearnerToASchool = this.addLearnerToASchool.bind(this);
         this.changeLearnerSchool = this.changeLearnerSchool.bind(this);
         this.currentLearnerSchool = this.currentLearnerSchool.bind(this);
+        this.createGrade = this.createGrade.bind(this);
+        this.getGrades = this.getGrades.bind(this);
+        this.addTeacherToASubject = this.addTeacherToASubject.bind(this);
     }
 
     // *************************** Schools Controllers **************************** //
@@ -136,6 +141,36 @@ export default class SchoolSystemControllers {
         } catch (error) {
             res.status(400).json({
                 message: "An error occurred while creating a teacher for a school.",
+            });
+        }
+    }
+
+    async addTeacherToASubject(req: Request, res: Response): Promise<void> {
+        try {
+            const { teacherId, subjectId } = req.body as RequestBody;
+            if (
+                typeof teacherId === "number" &&
+                teacherId &&
+                typeof subjectId === "number" &&
+                subjectId
+            ) {
+                const results = await this.schoolSystem.linkTeacherToSubject(
+                    teacherId,
+                    subjectId
+                );
+                if (results) res.status(201).json({ message: "success" });
+                else
+                    res.status(404).json({
+                        message: `Values: ${teacherId} teacher id & ${subjectId} subject id not found.`,
+                    });
+            } else {
+                res
+                    .status(400)
+                    .send("Invalid input: 'teacherId' and 'subjectId' must be numbers");
+            }
+        } catch (error) {
+            res.status(400).json({
+                message: "An error occurred while creating a teacher for a subject.",
             });
         }
     }
@@ -270,6 +305,37 @@ export default class SchoolSystemControllers {
                 message:
                     "An error occurred while fetching the learners current school.",
             });
+        }
+    }
+
+    // ***************************** Grades Controllers **************************** //
+    async createGrade(req: Request, res: Response): Promise<void> {
+        try {
+            const { grade } = req.body as RequestBody;
+            if (!grade) {
+                res.status(400).send("Invalid input: 'Grade' must not be empty");
+            }
+            const results = await this.schoolSystem.createGrade(grade as string);
+            if (!results) {
+                res.status(409).json({ message: `${grade} already exist.` });
+            } else {
+                res.status(201).json({ message: "Success" });
+            }
+        } catch (error) {
+            res.status(500).json({
+                message: "An error occurred while creating a grade.",
+            });
+        }
+    }
+
+    async getGrades(req: Request, res: Response): Promise<void> {
+        try {
+            const grades = await this.schoolSystem.getGrades();
+            res.status(200).json(grades);
+        } catch (error) {
+            res
+                .status(500)
+                .json({ message: "An error occurred while fetching grades." });
         }
     }
 }
