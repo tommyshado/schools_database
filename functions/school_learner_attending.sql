@@ -6,10 +6,15 @@
 -- Raises: Nothing
 -- Side Effects: It retrieves the current school of the specified learner from the learner_school table.
 
-create type school_type as (
-    id int,
-    name varchar
-);
+do $$
+begin
+    create type school_type as (
+        id int,
+        name varchar
+    );
+exception
+    when duplicate_object then null;
+end $$;
 
 create or replace function get_learners_current_school(the_learner_id int)
     returns table (

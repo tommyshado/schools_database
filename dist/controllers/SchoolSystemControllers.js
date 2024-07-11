@@ -14,6 +14,7 @@ class SchoolSystemControllers {
         this.schoolSystem = schoolSystem;
         this.createSchool = this.createSchool.bind(this);
         this.getSchools = this.getSchools.bind(this);
+        this.getSchool = this.getSchool.bind(this);
         this.createTeacher = this.createTeacher.bind(this);
         this.getTeachers = this.getTeachers.bind(this);
         this.addTeacherToASchool = this.addTeacherToASchool.bind(this);
@@ -64,6 +65,20 @@ class SchoolSystemControllers {
                 res
                     .status(500)
                     .json({ message: "An error occurred while fetching the schools." });
+            }
+        });
+    }
+    getSchool(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { school, region } = req.query;
+            try {
+                const foundSchool = yield this.schoolSystem.getSchool(school, region);
+                res.status(200).json(foundSchool);
+            }
+            catch (error) {
+                res
+                    .status(500)
+                    .json({ message: "An error occurred while fetching a school." });
             }
         });
     }
@@ -287,12 +302,13 @@ class SchoolSystemControllers {
     currentLearnerSchool(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const learnerId = parseInt(req.params.learnerId);
-                if (isNaN(learnerId)) {
-                    res.status(400).send("Invalid input: 'learnerId' must be a number");
+                const { learnerId } = req.query;
+                const isIdNumber = Number(learnerId);
+                if (typeof isIdNumber !== 'number' && !isIdNumber) {
+                    res.status(400).send("Invalid input: 'learnerId' must be a number or greater than 0.");
                 }
                 else {
-                    const currentSchool = yield this.schoolSystem.getLearnersCurrentSchool(learnerId);
+                    const currentSchool = yield this.schoolSystem.getLearnersCurrentSchool(isIdNumber);
                     if (currentSchool.id)
                         res.status(200).json(currentSchool);
                     else

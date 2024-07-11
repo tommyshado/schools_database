@@ -1,7 +1,12 @@
-create type subject_type as (
-    id int,
-    name text
-);
+do $$
+begin
+    create type subject_type as (
+        id int,
+        name text
+    );
+exception
+    when duplicate_object then null;
+end $$;
 
 create or replace function find_subjects ()
     returns table (

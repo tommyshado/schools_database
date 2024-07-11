@@ -19,6 +19,7 @@ export default class SchoolSystemControllers {
     constructor(private schoolSystem: SchoolSystem) {
         this.createSchool = this.createSchool.bind(this);
         this.getSchools = this.getSchools.bind(this);
+        this.getSchool = this.getSchool.bind(this);
         this.createTeacher = this.createTeacher.bind(this);
         this.getTeachers = this.getTeachers.bind(this);
         this.addTeacherToASchool = this.addTeacherToASchool.bind(this);
@@ -56,7 +57,6 @@ export default class SchoolSystemControllers {
                 .json({ message: "An error occurred while creating a school." });
         }
     }
-
     async getSchools(req: Request, res: Response): Promise<void> {
         try {
             const schools = await this.schoolSystem.getSchools();
@@ -65,6 +65,17 @@ export default class SchoolSystemControllers {
             res
                 .status(500)
                 .json({ message: "An error occurred while fetching the schools." });
+        }
+    }
+    async getSchool(req: Request, res: Response): Promise<void> {
+        const { school, region } = req.query;
+        try {
+            const foundSchool = await this.schoolSystem.getSchool(school as string, region as string);
+            res.status(200).json(foundSchool);
+        } catch (error) {
+            res
+                .status(500)
+                .json({ message: "An error occurred while fetching a school." });
         }
     }
 
@@ -103,7 +114,6 @@ export default class SchoolSystemControllers {
                 .json({ message: "An error occurred while creating a teacher." });
         }
     }
-
     async getTeachers(req: Request, res: Response): Promise<void> {
         try {
             const teachers = await this.schoolSystem.getTeachers();
@@ -114,7 +124,6 @@ export default class SchoolSystemControllers {
                 .json({ message: "An error occurred while fetching the teachers." });
         }
     }
-
     async addTeacherToASchool(req: Request, res: Response): Promise<void> {
         try {
             const { teacherId, schoolId } = req.body as RequestBody;
@@ -144,7 +153,6 @@ export default class SchoolSystemControllers {
             });
         }
     }
-
     async addTeacherToASubject(req: Request, res: Response): Promise<void> {
         try {
             const { teacherId, subjectId } = req.body as RequestBody;
@@ -213,7 +221,6 @@ export default class SchoolSystemControllers {
                 .json({ message: "An error occurred while creating a learner." });
         }
     }
-
     async getLearners(req: Request, res: Response): Promise<void> {
         try {
             const learners = await this.schoolSystem.getLearners();
@@ -224,7 +231,6 @@ export default class SchoolSystemControllers {
                 .json({ message: "An error occurred while fetching the learners." });
         }
     }
-
     async addLearnerToASchool(req: Request, res: Response): Promise<void> {
         try {
             const { learnerId, schoolId } = req.body as RequestBody;
@@ -254,7 +260,6 @@ export default class SchoolSystemControllers {
             });
         }
     }
-
     async changeLearnerSchool(req: Request, res: Response): Promise<void> {
         try {
             const { learnerId, schoolId } = req.body as RequestBody;
@@ -284,15 +289,15 @@ export default class SchoolSystemControllers {
             });
         }
     }
-
     async currentLearnerSchool(req: Request, res: Response): Promise<void> {
         try {
-            const learnerId = parseInt(req.params.learnerId);
-            if (isNaN(learnerId)) {
-                res.status(400).send("Invalid input: 'learnerId' must be a number");
+            const { learnerId }  = req.query;
+            const isIdNumber = Number(learnerId);
+            if (typeof isIdNumber !== 'number' && !isIdNumber) {
+                res.status(400).send("Invalid input: 'learnerId' must be a number or greater than 0.");
             } else {
                 const currentSchool = await this.schoolSystem.getLearnersCurrentSchool(
-                    learnerId
+                    isIdNumber
                 );
                 if (currentSchool.id) res.status(200).json(currentSchool);
                 else
@@ -327,7 +332,6 @@ export default class SchoolSystemControllers {
             });
         }
     }
-
     async getGrades(req: Request, res: Response): Promise<void> {
         try {
             const grades = await this.schoolSystem.getGrades();

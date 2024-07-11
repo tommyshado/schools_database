@@ -15,9 +15,11 @@ declare
     teacher_count int;
     school_count int;
 begin
+    if (the_teacher_id is null or the_school_id is null) then
+        return false;
+    end if;
     select into teacher_count count(*) from teacher where id = the_teacher_id;
     select into school_count count(*) from school where id = the_school_id;
-
     if (school_count = 1 and teacher_count = 1) then
         select into linked_teacher count(*) from teacher_school where teacher_school.teacher_id = the_teacher_id;
         if (linked_teacher = 0) then

@@ -16,7 +16,7 @@ class SchoolSystem {
         this.learners = learners;
         this.grades = grades;
     }
-    // Schools functionalities
+    // ************************************ Schools functionalities ********************************* //
     createSchools(name, region) {
         return __awaiter(this, void 0, void 0, function* () {
             const results = yield this.schools.createSchools(name, region);
@@ -31,7 +31,13 @@ class SchoolSystem {
         });
     }
     ;
-    // Teachers functionalities
+    getSchool(name, region) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const results = yield this.schools.getSchool(name, region);
+            return results;
+        });
+    }
+    // ************************************ Teachers functionalities ************************************ //
     createATeacher(person) {
         return __awaiter(this, void 0, void 0, function* () {
             const results = yield this.teachers.createATeacher(person);
@@ -60,7 +66,7 @@ class SchoolSystem {
         });
     }
     ;
-    // Learners functionalities
+    // ************************************ Learners functionalities ************************************ //
     createLearner(person) {
         return __awaiter(this, void 0, void 0, function* () {
             const results = yield this.learners.createLearner(person);
@@ -103,7 +109,7 @@ class SchoolSystem {
         });
     }
     ;
-    // Grades functionalities
+    // ************************************ Grades functionalities ************************************** //
     createGrade(the_name) {
         return __awaiter(this, void 0, void 0, function* () {
             const results = yield this.grades.createGrade(the_name);

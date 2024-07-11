@@ -8,4 +8,5 @@ export interface ISchoolsType {
 export interface ISchools {
     createSchools(name: string, region: string) : Promise<boolean>;
     getSchools() : Promise<ISchoolsType[]>;
+    getSchool(name: string, region: string): Promise<ISchoolsType[]>;
 };

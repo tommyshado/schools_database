@@ -13,7 +13,6 @@ class SchoolsImpl {
     constructor(db) {
         this.db = db;
     }
-    ;
     createSchools(name, region) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -29,7 +28,6 @@ class SchoolsImpl {
             }
         });
     }
-    ;
     getSchools() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -43,7 +41,18 @@ class SchoolsImpl {
             }
         });
     }
-    ;
+    getSchool(name, region) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const query = "select * from find_school($1, $2)";
+                const results = yield this.db.manyOrNone(query, [name, region]);
+                return results;
+            }
+            catch (error) {
+                console.error("An error occurred while fetching a school", error);
+                throw error;
+            }
+        });
+    }
 }
 exports.default = SchoolsImpl;
-;

@@ -17,28 +17,29 @@ export default class SchoolSystem implements ISchools, ITeachers, ILearners, IGr
         private grades: GradesImpl
     ) {}
 
-    // Schools functionalities
+    // ************************************ Schools functionalities ********************************* //
     async createSchools(name: string, region: string): Promise<boolean> {
         const results = await this.schools.createSchools(name, region);
         return results;
     };
-
     async getSchools(): Promise<ISchoolsType[]> {
         const results = await this.schools.getSchools();
         return results;
     };
+    async getSchool(name: string | null, region: string | null): Promise<ISchoolsType[]> {
+        const results = await this.schools.getSchool(name, region);
+        return results;
+    }
 
-    // Teachers functionalities
+    // ************************************ Teachers functionalities ************************************ //
     async createATeacher(person: IPerson): Promise<boolean> {
         const results = await this.teachers.createATeacher(person);
         return results;
     };
-
     async getTeachers(): Promise<IPerson[]> {
         const results = await this.teachers.getTeachers();
         return results;
     };
-
     async linkTeacherToSchool(teacherId: number, schoolId: number): Promise<boolean> {
         const results = await this.teachers.linkTeacherToSchool(
             teacherId,
@@ -46,7 +47,6 @@ export default class SchoolSystem implements ISchools, ITeachers, ILearners, IGr
         );
         return results;
     };
-
     async linkTeacherToSubject(teacherId: number, subjectId: number): Promise<boolean> {
         const results = await this.teachers.linkTeacherToSubject(
             teacherId,
@@ -55,43 +55,37 @@ export default class SchoolSystem implements ISchools, ITeachers, ILearners, IGr
         return results;
     };
 
-    // Learners functionalities
+    // ************************************ Learners functionalities ************************************ //
     async createLearner(person: IPerson): Promise<boolean> {
         const results = await this.learners.createLearner(person);
         return results;
     };
-
     async getLearners(): Promise<IPerson[]> {
         const results = await this.learners.getLearners();
         return results;
     };
-
     async linkLearnerToSchool(learnerId: number, schoolId: number): Promise<boolean> {
         const results = await this.learners.linkLearnerToSchool(learnerId, schoolId);
         return results;
     };
-
     async linkLearnerToNewSchool(learnerId: number, schoolId: number): Promise<boolean> {
         const results = await this.learners.linkLearnerToNewSchool(learnerId, schoolId);
         return results;
     };
-
     async getPastLearnerSchools(learnerId: number): Promise<ISchoolsType[]> {
         const results = await this.learners.getPastLearnerSchools(learnerId);
         return results;
     };
-
     async getLearnersCurrentSchool(learnerId: number): Promise<ISchoolsType> {
         const results = await this.learners.getLearnersCurrentSchool(learnerId);
         return results;
     };
 
-    // Grades functionalities
+    // ************************************ Grades functionalities ************************************** //
     async createGrade(the_name: string): Promise<boolean> {
         const results = await this.grades.createGrade(the_name);
         return results;
     };
-
     async getGrades(): Promise<IGrade[]> {
         const results = await this.grades.getGrades();
         return results;

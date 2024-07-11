@@ -44,6 +44,19 @@ describe("Schools Database", function () {
             schools = yield SchoolSystemDBManager_1.schoolsImpl.getSchools();
             assert_1.default.equal(3, schools.length);
         }));
+        it("should find a school", () => __awaiter(this, void 0, void 0, function* () {
+            yield SchoolSystemDBManager_1.schoolsImpl.createSchools("Masiyile", "Site B");
+            yield SchoolSystemDBManager_1.schoolsImpl.createSchools("Masiphakame", "Site C");
+            const results = yield SchoolSystemDBManager_1.schoolsImpl.getSchools();
+            assert_1.default.equal(2, results.length);
+            // Filtering for schools
+            const findSchool = yield SchoolSystemDBManager_1.schoolsImpl.getSchool("Masiyile", null);
+            assert_1.default.equal(1, findSchool.length);
+            const findAnotherSchool = yield SchoolSystemDBManager_1.schoolsImpl.getSchool(null, "Site C");
+            assert_1.default.equal(1, findAnotherSchool.length);
+            const getSchool = yield SchoolSystemDBManager_1.schoolsImpl.getSchool("Masiyile", "Site B");
+            assert_1.default.equal(1, getSchool.length);
+        }));
     });
     describe("DbTeacher Database", () => {
         it("should create a teacher", () => __awaiter(this, void 0, void 0, function* () {

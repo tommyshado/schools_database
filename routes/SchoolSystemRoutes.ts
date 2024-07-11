@@ -8,6 +8,7 @@ const SchoolSystem = new SchoolSystemControllers(schoolApp);
 // ************************* Schools Routes ********************************* //
 router.post("/create-school", SchoolSystem.createSchool);
 router.get("/get-schools", SchoolSystem.getSchools);
+router.get("/school-search", SchoolSystem.getSchool);
 
 // ************************* Teachers Routes ******************************* //
 router.post("/create-teacher", SchoolSystem.createTeacher);
@@ -20,7 +21,7 @@ router.post("/create-learner", SchoolSystem.createLearner);
 router.get("/get-learners", SchoolSystem.getLearners);
 router.post("/add-learner-to-school", SchoolSystem.addLearnerToASchool);
 router.post("/change-learner-school", SchoolSystem.changeLearnerSchool);
-router.get("/learner-school/:learnerId", SchoolSystem.currentLearnerSchool);
+router.get("/learner-school", SchoolSystem.currentLearnerSchool);
 
 // ************************* Grades Routes ******************************** //
 router.post("/create-grade", SchoolSystem.createGrade);

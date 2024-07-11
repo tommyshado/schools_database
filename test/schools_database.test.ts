@@ -32,7 +32,6 @@ describe("Schools Database", function () {
             const results = await schoolsImpl.createSchools("Luhlaza", "Khayelitsha");
             assert.equal(true, results);
         });
-
         it("should create more schools", async () => {
             await schoolsImpl.createSchools("Cape Town High", "Cape Town");
             const results = await schoolsImpl.createSchools(
@@ -49,6 +48,21 @@ describe("Schools Database", function () {
             // Update the schools variable with the newly added schools
             schools = await schoolsImpl.getSchools();
             assert.equal(3, schools.length);
+        });
+        it("should find a school", async () => {
+            await schoolsImpl.createSchools("Masiyile", "Site B");
+            await schoolsImpl.createSchools("Masiphakame", "Site C");
+            const results = await schoolsImpl.getSchools();
+            assert.equal(2, results.length);
+            // Filtering for schools
+            const findSchool = await schoolsImpl.getSchool("Masiyile", null);
+            assert.equal(1, findSchool.length);
+
+            const findAnotherSchool = await schoolsImpl.getSchool(null, "Site C");
+            assert.equal(1, findAnotherSchool.length);
+
+            const getSchool = await schoolsImpl.getSchool("Masiyile", "Site B");
+            assert.equal(1, getSchool.length);
         });
     });
 
@@ -67,7 +81,6 @@ describe("Schools Database", function () {
             });
             assert.equal(false, results__);
         });
-
         it("should create teachers", async () => {
             await teachersImpl.createATeacher({
                 firstName: "Ace",
@@ -84,7 +97,6 @@ describe("Schools Database", function () {
             teachers = await teachersImpl.getTeachers();
             assert.equal(2, teachers.length);
         });
-
         it("should link a teacher to a school", async () => {
             await teachersImpl.createATeacher({
                 firstName: "Otha",
@@ -102,7 +114,6 @@ describe("Schools Database", function () {
 
             assert.equal(true, results);
         });
-
         it("should link teachers to schools", async () => {
             await teachersImpl.createATeacher({
                 firstName: "Nathi",
@@ -154,7 +165,6 @@ describe("Schools Database", function () {
             });
             assert.equal(true, learner);
         });
-
         it("should link learners to a school", async () => {
             // create learner grade
             const grade = await gradesImpl.createGrade("Grade-8");
@@ -183,7 +193,6 @@ describe("Schools Database", function () {
 
             assert.equal(true, results);
         });
-
         it("should change learners to another school", async () => {
             // create learner grade
             const grade = await gradesImpl.createGrade("Grade-11");
@@ -229,7 +238,6 @@ describe("Schools Database", function () {
             );
             assert.equal(false, results);
         });
-
         it("should find a learner's current school", async () => {
             // create learner grade
             const grade = await gradesImpl.createGrade("Grade-6");
@@ -283,7 +291,6 @@ describe("Schools Database", function () {
                 learnersCurrentSchool
             );
         });
-
         it("should find all the schools for a learner", async () => {
             // create learner grade
             const grade = await gradesImpl.createGrade("Grade-11");
