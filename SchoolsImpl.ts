@@ -24,7 +24,7 @@ export default class SchoolsImpl implements ISchools {
             throw error;
         }
     }
-    async getSchool(name: string | null, region: string | null): Promise<ISchoolsType[]> {
+    async getSchool(name: string | null = null, region: string | null = null): Promise<ISchoolsType[]> {
         try {
             const query = "select * from find_school($1, $2)";
             const results = await this.db.manyOrNone(query, [name, region]);

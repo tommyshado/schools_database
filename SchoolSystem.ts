@@ -26,7 +26,7 @@ export default class SchoolSystem implements ISchools, ITeachers, ILearners, IGr
         const results = await this.schools.getSchools();
         return results;
     };
-    async getSchool(name: string | null, region: string | null): Promise<ISchoolsType[]> {
+    async getSchool(name: string | null = null, region: string | null = null): Promise<ISchoolsType[]> {
         const results = await this.schools.getSchool(name, region);
         return results;
     }

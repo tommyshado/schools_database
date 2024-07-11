@@ -41,8 +41,8 @@ class SchoolsImpl {
             }
         });
     }
-    getSchool(name, region) {
-        return __awaiter(this, void 0, void 0, function* () {
+    getSchool() {
+        return __awaiter(this, arguments, void 0, function* (name = null, region = null) {
             try {
                 const query = "select * from find_school($1, $2)";
                 const results = yield this.db.manyOrNone(query, [name, region]);

@@ -31,8 +31,8 @@ class SchoolSystem {
         });
     }
     ;
-    getSchool(name, region) {
-        return __awaiter(this, void 0, void 0, function* () {
+    getSchool() {
+        return __awaiter(this, arguments, void 0, function* (name = null, region = null) {
             const results = yield this.schools.getSchool(name, region);
             return results;
         });
