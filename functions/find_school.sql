@@ -1,3 +1,16 @@
+do $$
+begin
+    create type schools_type as (
+        id integer,
+        name text,
+        region text,
+        learners_count integer,
+        teachers_count integer
+    );
+exception
+    when duplicate_object then null;
+end $$;
+
 create or replace function find_school (the_school_name text default null, the_region text default null)
     returns table (
         school_row schools_type

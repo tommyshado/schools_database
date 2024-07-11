@@ -52,14 +52,15 @@ describe("Schools Database", function () {
         it("should find a school", async () => {
             await schoolsImpl.createSchools("Masiyile", "Site B");
             await schoolsImpl.createSchools("Masiphakame", "Site C");
+            await schoolsImpl.createSchools("Vuzamanzi", "Site C");
             const results = await schoolsImpl.getSchools();
-            assert.equal(2, results.length);
+            assert.equal(3, results.length);
             // Filtering for schools
             const findSchool = await schoolsImpl.getSchool("Masiyile", null);
             assert.equal(1, findSchool.length);
 
             const findAnotherSchool = await schoolsImpl.getSchool(null, "Site C");
-            assert.equal(1, findAnotherSchool.length);
+            assert.equal(2, findAnotherSchool.length);
 
             const getSchool = await schoolsImpl.getSchool("Masiyile", "Site B");
             assert.equal(1, getSchool.length);
