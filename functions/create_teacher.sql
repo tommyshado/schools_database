@@ -14,13 +14,9 @@ create or replace function create_teacher(the_first_name varchar, the_last_name 
     returns boolean as
 $$
 declare
-
     email_count int;
-
 begin
-
     select count(*) into email_count from teacher where email = the_email;
-
     if email_count = 0 then
         insert into teacher (first_name, last_name, email) 
             values (the_first_name, the_last_name, the_email);

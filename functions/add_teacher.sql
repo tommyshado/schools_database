@@ -8,15 +8,12 @@ create or replace function add_teacher(the_first_name text, the_last_name text, 
     returns boolean as
 $$
 declare
--- declare a variable set the variable to an integer;
-total int;
-
+    -- declare a variable set the variable to an integer;
+    total int;
 begin
-
     -- run a query to check if the teacher email exists;
     select into total count(*) from teacher
         where LOWER(email) = LOWER(the_email);
-
     -- check if the declared variable is truthy then
     if (total = 0) then
         -- otherwise, insert the values (first_name, last_name, email) into the teacher database and

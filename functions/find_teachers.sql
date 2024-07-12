@@ -1,15 +1,3 @@
-do $$
-begin    
-    create type teacher_type as (
-        id int,
-        first_name text,
-        last_name text,
-        email text
-    );
-exception
-    when duplicate_object then null;
-end $$;
-
 create or replace function find_teachers ()
     returns table (
         teacher_row teacher_type
