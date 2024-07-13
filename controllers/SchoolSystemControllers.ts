@@ -69,13 +69,42 @@ export default class SchoolSystemControllers {
     }
     async getSchool(req: Request, res: Response): Promise<void> {
         const { school, region } = req.query;
+        if (!region) {
+            try {
+                const foundSchool = await this.schoolSystem.getSchool(
+                    school as string,
+                    null
+                );
+                res.status(200).json(foundSchool);
+            } catch (error) {
+                res
+                    .status(500)
+                    .json({ message: "An error occurred while fetching a school using a school." });
+            }
+        }
+        if (!school) {
+            try {
+                const foundSchool = await this.schoolSystem.getSchool(
+                    null,
+                    region as string
+                );
+                res.status(200).json(foundSchool);
+            } catch (error) {
+                res
+                    .status(500)
+                    .json({ message: "An error occurred while fetching a school using a region." });
+            }
+        }
         try {
-            const foundSchool = await this.schoolSystem.getSchool(school as string, region as string);
+            const foundSchool = await this.schoolSystem.getSchool(
+                school as string,
+                region as string
+            );
             res.status(200).json(foundSchool);
         } catch (error) {
             res
                 .status(500)
-                .json({ message: "An error occurred while fetching a school." });
+                .json({ message: "An error occurred while fetching a school using a school and region." });
         }
     }
 
@@ -291,10 +320,14 @@ export default class SchoolSystemControllers {
     }
     async currentLearnerSchool(req: Request, res: Response): Promise<void> {
         try {
-            const { learnerId }  = req.query;
+            const { learnerId } = req.query;
             const isIdNumber = Number(learnerId);
-            if (typeof isIdNumber !== 'number' && !isIdNumber) {
-                res.status(400).send("Invalid input: 'learnerId' must be a number or greater than 0.");
+            if (typeof isIdNumber !== "number" && !isIdNumber) {
+                res
+                    .status(400)
+                    .send(
+                        "Invalid input: 'learnerId' must be a number or greater than 0."
+                    );
             } else {
                 const currentSchool = await this.schoolSystem.getLearnersCurrentSchool(
                     isIdNumber
