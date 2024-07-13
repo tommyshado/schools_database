@@ -69,42 +69,25 @@ export default class SchoolSystemControllers {
     }
     async getSchool(req: Request, res: Response): Promise<void> {
         const { school, region } = req.query;
-        if (!region) {
-            try {
-                const foundSchool = await this.schoolSystem.getSchool(
+        try {
+            let foundSchool;
+            if (!school && !region) {
+                res.status(404).send("Please enter a school or region");
+            } else if (!school) {
+                foundSchool = await this.schoolSystem.getSchool(null, region as string);
+            } else if (!region) {
+                foundSchool = await this.schoolSystem.getSchool(school as string, null);
+            } else {
+                foundSchool = await this.schoolSystem.getSchool(
                     school as string,
-                    null
-                );
-                res.status(200).json(foundSchool);
-            } catch (error) {
-                res
-                    .status(500)
-                    .json({ message: "An error occurred while fetching a school using a school." });
-            }
-        }
-        if (!school) {
-            try {
-                const foundSchool = await this.schoolSystem.getSchool(
-                    null,
                     region as string
                 );
-                res.status(200).json(foundSchool);
-            } catch (error) {
-                res
-                    .status(500)
-                    .json({ message: "An error occurred while fetching a school using a region." });
             }
-        }
-        try {
-            const foundSchool = await this.schoolSystem.getSchool(
-                school as string,
-                region as string
-            );
             res.status(200).json(foundSchool);
         } catch (error) {
             res
                 .status(500)
-                .json({ message: "An error occurred while fetching a school using a school and region." });
+                .json({ message: "An error occurred while fetching a school." });
         }
     }
 
