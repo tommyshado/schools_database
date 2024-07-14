@@ -10,8 +10,8 @@ begin
         left join learner_school ls on s.id = ls.school_id 
         left join teacher_school ts on s.id = ts.school_id
         where
-            (the_school_name is not null and s.name = the_school_name and (the_region is null or s.region = the_region)) or 
-            (the_school_name is null and the_region is not null and s.region = the_region)
+            (the_school_name is not null and lower(s.name) ILIKE '%' || lower(the_school_name) || '%' and (the_region is null or lower(s.region) ILIKE '%' || lower(the_region) || '%')) or 
+            (the_school_name is null and the_region is not null and lower(s.region) ILIKE '%' || lower(the_region) || '%')
         group by s.id
         order by s.id;
 end;
